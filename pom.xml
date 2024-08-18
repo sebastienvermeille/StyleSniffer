@@ -69,7 +69,7 @@
     <maven-javadoc-plugin.version>3.8.0</maven-javadoc-plugin.version>
     <maven-jacoco-plugin.version>0.8.12</maven-jacoco-plugin.version>
     <maven-fmt-plugin.version>2.23</maven-fmt-plugin.version>
-    <maven-license-plugin.version>4.4</maven-license-plugin.version>
+    <maven-license-plugin.version>4.5</maven-license-plugin.version>
     <maven-ayoy-license-verifier.version>1.2.0</maven-ayoy-license-verifier.version>
   </properties>
 
@@ -200,7 +200,7 @@
                   <exclude>src/test/resources/**</exclude>
                   <exclude>src/main/resources/**</exclude>
                 </excludes>
-                <header>com/mycila/maven/plugin/license/templates/MIT.txt</header>
+                <header>${stylesniffer.root}/.licenses/MIT.template.txt</header>
               </licenseSet>
             </licenseSets>
             <properties>
@@ -209,6 +209,7 @@
                 <java>JAVAPKG_STYLE</java>
               </mapping>
               <owner>Sebastien Vermeille</owner>
+              <year>2024</year>
             </properties>
           </configuration>
         </plugin>
