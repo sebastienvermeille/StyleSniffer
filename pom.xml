@@ -48,6 +48,17 @@
     <maven.compiler.target>${java.sdk.version}</maven.compiler.target>
     <project.build.sourceEncoding>${source.encoding}</project.build.sourceEncoding>
 
+    <!-- sonar analysis -->
+    <sonar.organization>sebastienvermeille</sonar.organization>
+    <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+    <sonar.language>java</sonar.language>
+    <project.sonar.root.projectKey>sebastienvermeille_stylesniffer</project.sonar.root.projectKey>
+    <sonar.projectKey>${project.sonar.root.projectKey}</sonar.projectKey>
+    <sonar.sources>src/main/java</sonar.sources>
+    <sonar.tests>src/test/java</sonar.tests>
+    <sonar.links.homepage>https://cookiecode.dev/oss_projects/StyleSniffer</sonar.links.homepage>
+    <sonar.links.scm>https://github.com/sebastienvermeille/StyleSniffer</sonar.links.scm>
+
     <!-- dependencies versions -->
     <flogger.version>0.7.4</flogger.version>
     <google-auto-service.version>1.1.1</google-auto-service.version>
@@ -71,6 +82,7 @@
     <maven-fmt-plugin.version>2.23</maven-fmt-plugin.version>
     <maven-license-plugin.version>4.5</maven-license-plugin.version>
     <maven-ayoy-license-verifier.version>1.2.0</maven-ayoy-license-verifier.version>
+    <maven-sonar-plugin.version>4.0.0.4121</maven-sonar-plugin.version>
   </properties>
 
   <dependencyManagement>
@@ -260,6 +272,11 @@
             </execution>
           </executions>
         </plugin>
+        <plugin>
+          <groupId>org.sonarsource.scanner.maven</groupId>
+          <artifactId>sonar-maven-plugin</artifactId>
+          <version>${maven-sonar-plugin.version}</version>
+        </plugin>
       </plugins>
     </pluginManagement>
 
@@ -296,6 +313,10 @@
       <plugin>
         <groupId>se.ayoy.maven-plugins</groupId>
         <artifactId>ayoy-license-verifier-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.sonarsource.scanner.maven</groupId>
+        <artifactId>sonar-maven-plugin</artifactId>
       </plugin>
     </plugins>
   </build>
