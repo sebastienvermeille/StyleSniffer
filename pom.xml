@@ -1,0 +1,301 @@
+<!--
+
+    The MIT License
+    Copyright © 2024 Sebastien Vermeille
+
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files (the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in
+    all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+    THE SOFTWARE.
+
+-->
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>dev.cookiecode</groupId>
+  <artifactId>stylesniffer-parent</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <modules>
+    <module>stylesniffer-impl</module>
+    <module>stylesniffer-annotation-processor</module>
+    <module>stylesniffer-api</module>
+    <module>stylesniffer-testkit</module>
+  </modules>
+
+  <properties>
+    <java.sdk.version>21</java.sdk.version>
+    <source.encoding>UTF-8</source.encoding>
+    <stylesniffer.root>${basedir}</stylesniffer.root>
+
+    <maven.compiler.source>${java.sdk.version}</maven.compiler.source>
+    <maven.compiler.target>${java.sdk.version}</maven.compiler.target>
+    <project.build.sourceEncoding>${source.encoding}</project.build.sourceEncoding>
+
+    <!-- dependencies versions -->
+    <flogger.version>0.7.4</flogger.version>
+    <google-auto-service.version>1.1.1</google-auto-service.version>
+    <logback.version>1.4.11</logback.version>
+    <slf4j.version>2.0.9</slf4j.version>
+    <thymeleaf.version>3.1.2.RELEASE</thymeleaf.version>
+
+    <!-- test dependencies versions -->
+    <assertj-core.version>3.26.3</assertj-core.version>
+    <junit.version>5.10.1</junit.version>
+
+    <!-- dependencies codegen versions -->
+    <lombok.version>1.18.30</lombok.version>
+
+    <!-- maven plugins versions -->
+    <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
+    <maven-surefire-plugin.version>3.2.2</maven-surefire-plugin.version>
+    <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
+    <maven-javadoc-plugin.version>3.8.0</maven-javadoc-plugin.version>
+    <maven-jacoco-plugin.version>0.8.12</maven-jacoco-plugin.version>
+    <maven-fmt-plugin.version>2.23</maven-fmt-plugin.version>
+    <maven-license-plugin.version>4.5</maven-license-plugin.version>
+    <maven-ayoy-license-verifier.version>1.2.0</maven-ayoy-license-verifier.version>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok</artifactId>
+        <version>${lombok.version}</version>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.thymeleaf</groupId>
+        <artifactId>thymeleaf</artifactId>
+        <version>${thymeleaf.version}</version>
+        <scope>compile</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.google.auto.service</groupId>
+        <artifactId>auto-service</artifactId>
+        <version>${google-auto-service.version}</version>
+        <scope>compile</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.google.flogger</groupId>
+        <artifactId>flogger</artifactId>
+        <version>${flogger.version}</version>
+        <scope>compile</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.google.flogger</groupId>
+        <artifactId>flogger-slf4j-backend</artifactId>
+        <version>${flogger.version}</version>
+        <scope>compile</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>${slf4j.version}</version>
+        <scope>compile</scope>
+      </dependency>
+      <dependency>
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-classic</artifactId>
+        <version>${logback.version}</version>
+        <scope>compile</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.assertj</groupId>
+        <artifactId>assertj-core</artifactId>
+        <version>${assertj-core.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter</artifactId>
+        <version>${junit.version}</version>
+        <scope>test</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>${maven-compiler-plugin.version}</version>
+          <configuration>
+            <release>${java.sdk.version}</release>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>${maven-surefire-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-source-plugin</artifactId>
+          <version>${maven-source-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>${maven-javadoc-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.jacoco</groupId>
+          <artifactId>jacoco-maven-plugin</artifactId>
+          <version>${maven-jacoco-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>com.spotify.fmt</groupId>
+          <artifactId>fmt-maven-plugin</artifactId>
+          <version>${maven-fmt-plugin.version}</version>
+          <configuration>
+            <filesNamePattern>.*\.java</filesNamePattern>
+            <skip>false</skip>
+            <skipSortingImports>false</skipSortingImports>
+            <sourceDirectory>src/main/java</sourceDirectory>
+            <style>google</style>
+            <testSourceDirectory>src/test/java</testSourceDirectory>
+            <verbose>false</verbose>
+          </configuration>
+          <executions>
+            <execution>
+              <goals>
+                <goal>format</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+
+        <plugin>
+          <groupId>com.mycila</groupId>
+          <artifactId>license-maven-plugin</artifactId>
+          <version>${maven-license-plugin.version}</version>
+          <configuration>
+            <licenseSets>
+              <licenseSet>
+                <excludes>
+                  <exclude>**/*.md</exclude>
+                  <exclude>.code/**</exclude>
+                  <exclude>.github/**</exclude>
+                  <exclude>.mvn/**</exclude>
+                  <exclude>src/test/resources/**</exclude>
+                  <exclude>src/main/resources/**</exclude>
+                </excludes>
+                <header>com/mycila/maven/plugin/license/templates/MIT.txt</header>
+              </licenseSet>
+            </licenseSets>
+            <properties>
+              <email>sebastien.vermeille@gmail.com</email>
+              <mapping>
+                <java>JAVAPKG_STYLE</java>
+              </mapping>
+              <owner>Sebastien Vermeille</owner>
+            </properties>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>se.ayoy.maven-plugins</groupId>
+          <artifactId>ayoy-license-verifier-maven-plugin</artifactId>
+          <version>${maven-ayoy-license-verifier.version}</version>
+          <configuration>
+            <failOnForbidden>true</failOnForbidden>
+            <failOnMissing>false</failOnMissing>
+            <failOnUnknown>true</failOnUnknown>
+            <licenseFile>${stylesniffer.root}/.licenses/licenses.xml</licenseFile>
+            <requireAllValid>false</requireAllValid>
+          </configuration>
+          <executions>
+            <execution>
+              <goals>
+                <goal>verify</goal>
+              </goals>
+              <phase>compile</phase>
+            </execution>
+          </executions>
+        </plugin>
+
+        <plugin>
+          <groupId>org.jacoco</groupId>
+          <artifactId>jacoco-maven-plugin</artifactId>
+          <version>${maven-jacoco-plugin.version}</version>
+          <configuration>
+            <formats>
+              <format>HTML</format>
+              <format>XML</format>
+            </formats>
+          </configuration>
+          <executions>
+            <execution>
+              <goals>
+                <goal>prepare-agent</goal>
+              </goals>
+              <id>agent</id>
+            </execution>
+            <execution>
+              <goals>
+                <goal>report</goal>
+              </goals>
+              <id>jacoco-report</id>
+              <phase>test</phase>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>com.spotify.fmt</groupId>
+        <artifactId>fmt-maven-plugin</artifactId>
+      </plugin>
+
+      <plugin>
+        <groupId>com.mycila</groupId>
+        <artifactId>license-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>se.ayoy.maven-plugins</groupId>
+        <artifactId>ayoy-license-verifier-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+</project>

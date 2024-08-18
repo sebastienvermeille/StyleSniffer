@@ -1,0 +1,61 @@
+name: Build
+# Ensure that the code compiles and that tests pass
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    types: [ opened, synchronize, reopened ]
+  schedule:
+    - cron: '0 0 * * *'
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+      - name: Check code formatting
+        run: mvn -B com.spotify.fmt:fmt-maven-plugin:check
+      - name: Check copyright headers
+        run: mvn -B license:check
+      - name: Check dependencies licenses
+        run: mvn se.ayoy.maven-plugins:ayoy-license-verifier-maven-plugin:verify
+      - name: Build
+        run: mvn -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn compile
+      - name: Test
+        run: mvn -B test -ff
+      - name: Package
+        run: mvn -B package -Dmaven.test.skip
+      - name: Verify
+        run: mvn -B verify -Dmaven.test.skip
+      - name: Install
+        run: mvn -B install -Dmaven.test.skip
+      - name: Extract PR number
+        if: github.event_name == 'pull_request'
+        run: echo ${{ github.event.number }} > PR_NUMBER.txt
+      - name: Store PR number
+        if: github.event_name == 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: PR_NUMBER
+          path: PR_NUMBER.txt
+          retention-days: 1
+          if-no-files-found: error
+      - name: Store build files
+        uses: actions/upload-artifact@v4
+        with:
+          name: BUILD_FILES
+          path: |
+            stylesniffer-annotation-processor/target
+            stylesniffer-api/target
+            stylesniffer-impl/target
+            stylesniffer-testkit/target
+          retention-days: 1
+          if-no-files-found: error
