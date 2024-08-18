@@ -41,19 +41,11 @@ class PascalCaseStyleTest implements BaseCaseStyleTest<PascalCaseStyle> {
 
   @Override
   public List<String> nonMatchingInputs() {
-    return of(
-        "some_snake_case",
-        "someCamelCase",
-        "some-kebab-case"
-    );
+    return of("some_snake_case", "someCamelCase", "some-kebab-case");
   }
 
   @Override
   public List<String> matchingInputs() {
-    return of(
-        "SomePascalCase",
-        "Pascal",
-        "PascalIsAName"
-    );
+    return of("SomePascalCase", "Pascal", "PascalIsAName");
   }
 }

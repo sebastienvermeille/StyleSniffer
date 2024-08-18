@@ -41,19 +41,11 @@ class KebabCaseStyleTest implements BaseCaseStyleTest<KebabCaseStyle> {
 
   @Override
   public List<String> nonMatchingInputs() {
-    return of(
-        "SomePascalCase",
-        "someCamelCase",
-        "some_snake_case"
-    );
+    return of("SomePascalCase", "someCamelCase", "some_snake_case");
   }
 
   @Override
   public List<String> matchingInputs() {
-    return of(
-        "kebab-case",
-        "this-is-kebab-case",
-        "a-very-long-name-using-such-case-style"
-    );
+    return of("kebab-case", "this-is-kebab-case", "a-very-long-name-using-such-case-style");
   }
 }

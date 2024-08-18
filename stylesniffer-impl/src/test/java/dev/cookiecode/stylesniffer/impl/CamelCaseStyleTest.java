@@ -41,19 +41,11 @@ class CamelCaseStyleTest implements BaseCaseStyleTest<CamelCaseStyle> {
 
   @Override
   public List<String> nonMatchingInputs() {
-    return of(
-        "some_snake_case",
-        "SomePascalCase",
-        "some-kebab-case"
-    );
+    return of("some_snake_case", "SomePascalCase", "some-kebab-case");
   }
 
   @Override
   public List<String> matchingInputs() {
-    return of(
-        "someCamelCase",
-        "shouldStartWithLowerCaseOtherwiseItsPascalCase",
-        "camel"
-    );
+    return of("someCamelCase", "shouldStartWithLowerCaseOtherwiseItsPascalCase", "camel");
   }
 }
