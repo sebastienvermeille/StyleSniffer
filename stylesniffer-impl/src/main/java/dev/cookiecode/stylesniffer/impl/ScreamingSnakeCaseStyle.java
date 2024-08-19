@@ -52,13 +52,7 @@ public class ScreamingSnakeCaseStyle implements CaseStyle {
 
   @Override
   public Set<String> getVariantNames() {
-    return Set.of(
-        this.getName(),
-        "CONSTANT_CASE",
-        "MACRO_CASE",
-        "UPPER_CASE",
-        "UPPER_SNAKE_CASE",
-        "SCREAM_CASE");
+    return Set.of(this.getName());
   }
 
   /**

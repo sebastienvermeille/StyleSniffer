@@ -32,15 +32,15 @@ import java.util.Set;
 import lombok.NonNull;
 
 /**
- * {@link CaseStyle} implementation that checks for CamelCase naming style.
+ * {@link CaseStyle} implementation that checks for camelCase (LowerCamelCase) naming style.
  *
- * <p>CamelCase style is characterized by the first character being lowercase, and each subsequent
+ * <p>camelCase style is characterized by the first character being lowercase, and each subsequent
  * word starting with an uppercase letter, without any underscores or spaces.
  *
  * @author Sebastien Vermeille
  */
 @RegisterCaseStyle
-public class CamelCaseStyle implements CaseStyle {
+public class LowerCamelCaseStyle implements CaseStyle {
 
   /**
    * Checks if the given name matches the CamelCase style.
@@ -50,7 +50,7 @@ public class CamelCaseStyle implements CaseStyle {
    */
   @Override
   public boolean matches(@NonNull final String name) {
-    return this.isCamelCase(name);
+    return this.isLowerCamelCase(name);
   }
 
   @Override
@@ -72,7 +72,7 @@ public class CamelCaseStyle implements CaseStyle {
    * @param name the name to check
    * @return {@code true} if the name is in CamelCase, {@code false} otherwise
    */
-  private boolean isCamelCase(@NonNull final String name) {
+  private boolean isLowerCamelCase(@NonNull final String name) {
     if (name.isEmpty()) {
       return false;
     }
