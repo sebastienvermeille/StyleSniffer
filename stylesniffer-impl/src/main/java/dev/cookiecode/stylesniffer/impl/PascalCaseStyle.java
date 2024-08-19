@@ -59,7 +59,7 @@ public class PascalCaseStyle implements CaseStyle {
 
   @Override
   public Set<String> getVariantNames() {
-    return Set.of(this.getName(), "UpperCamelCase", "CapitalCamelCase");
+    return Set.of(this.getName(), "UpperCamelCase", "CamelCase");
   }
 
   /**

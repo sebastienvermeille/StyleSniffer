@@ -60,15 +60,7 @@ public class KebabCaseStyle implements CaseStyle {
 
   @Override
   public Set<String> getVariantNames() {
-    return of(
-        this.getName(),
-        "caterpillar-case",
-        "param-case",
-        "dash-case",
-        "hyphen-case",
-        "lisp-case",
-        "spinal-case",
-        "css-case");
+    return of(this.getName(), "lisp-case");
   }
 
   /**

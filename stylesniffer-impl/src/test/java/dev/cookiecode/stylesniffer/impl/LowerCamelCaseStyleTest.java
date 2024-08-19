@@ -32,11 +32,11 @@ import java.util.List;
  *
  * @author Sebastien Vermeille
  */
-class CamelCaseStyleTest implements BaseCaseStyleTest<CamelCaseStyle> {
+class LowerCamelCaseStyleTest implements BaseCaseStyleTest<LowerCamelCaseStyle> {
 
   @Override
-  public CamelCaseStyle createCaseStyle() {
-    return new CamelCaseStyle();
+  public LowerCamelCaseStyle createCaseStyle() {
+    return new LowerCamelCaseStyle();
   }
 
   @Override

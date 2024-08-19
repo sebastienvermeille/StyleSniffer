@@ -59,7 +59,7 @@ public class SnakeCaseStyle implements CaseStyle {
 
   @Override
   public Set<String> getVariantNames() {
-    return Set.of(this.getName(), "c_case");
+    return Set.of(this.getName());
   }
 
   /**
