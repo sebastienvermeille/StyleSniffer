@@ -127,6 +127,7 @@ public class RegisterCaseStyleAnnotationProcessor extends AbstractProcessor {
             List.class.getCanonicalName(),
             ArrayList.class.getCanonicalName(),
             IMPLEMENTED_INTERFACE_CLASS.getCanonicalName());
+
     context.setVariable(TEMPLATE_VARIABLE_IMPORTS, imports.stream().sorted().toList());
     context.setVariable(TEMPLATE_VARIABLE_CLASS_NAME, GENERATED_CLASS_NAME);
 
