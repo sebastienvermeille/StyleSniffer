@@ -78,13 +78,13 @@ public class RegisterCaseStyleAnnotationProcessor extends AbstractProcessor {
   private static final String TEMPLATE_VARIABLE_GENERATED_AT = "generatedAt";
   private static final String TEMPLATE_FILE_NAME = "case_style_injector";
   private static final String POINT = ".";
-  private final Class<? extends Annotation> ANNOTATION_CLASS = RegisterCaseStyle.class;
-  private final Class<?> IMPLEMENTED_INTERFACE_CLASS = CaseStyle.class;
+  private static final Class<? extends Annotation> ANNOTATION_CLASS = RegisterCaseStyle.class;
+  private static final Class<?> IMPLEMENTED_INTERFACE_CLASS = CaseStyle.class;
 
   @Override
   public boolean process(
       final Set<? extends TypeElement> annotations, final RoundEnvironment roundEnv) {
-    final var annotatedElements = roundEnv.getElementsAnnotatedWith(this.ANNOTATION_CLASS);
+    final var annotatedElements = roundEnv.getElementsAnnotatedWith(ANNOTATION_CLASS);
 
     if (!annotatedElements.isEmpty()) {
       this.generateCaseStyleInjector(annotatedElements);
