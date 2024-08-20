@@ -30,6 +30,7 @@ import java.util.List;
  *
  * @author Sebastien Vermeille
  */
+@SuppressWarnings("java:S2187") // sonar is not able to detect that BaseCaseStyleTest interface generates test
 class SnakeCaseStyleTest implements BaseCaseStyleTest<SnakeCaseStyle> {
 
   @Override
