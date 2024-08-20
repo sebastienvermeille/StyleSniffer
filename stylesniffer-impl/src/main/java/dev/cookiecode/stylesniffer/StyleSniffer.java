@@ -26,6 +26,7 @@ import static java.lang.reflect.Modifier.isAbstract;
 import static java.util.stream.Collectors.toSet;
 
 import dev.cookiecode.stylesniffer.api.CaseStyle;
+import dev.cookiecode.stylesniffer.api.exception.StyleSnifferException;
 import dev.cookiecode.stylesniffer.generated.CaseStyleInjector;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +61,7 @@ public class StyleSniffer {
     try {
       this.registerAllAnnotatedCaseStyles();
     } catch (final Exception e) {
-      throw new RuntimeException("Failed to initialize CaseStyleRecognizer", e);
+      throw new StyleSnifferException("Failed to initialize CaseStyleRecognizer", e);
     }
   }
 
@@ -82,7 +83,7 @@ public class StyleSniffer {
         try {
           this.caseStyles.add(clazz.getDeclaredConstructor().newInstance());
         } catch (final Exception e) {
-          throw new RuntimeException(
+          throw new StyleSnifferException(
               String.format("Failed to instantiate case style: %s", clazz.getName()), e);
         }
       }
