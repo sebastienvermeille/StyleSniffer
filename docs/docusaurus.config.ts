@@ -92,8 +92,8 @@ const config: Config = {
       darkTheme: prismThemes.dracula,
     },
     algolia: {
-      appId: '4M2DAO7VWX',
-      apiKey: 'a19f230ef456cc6046b0acf105bc1afd',
+      appId: '42',
+      apiKey: '42',
       indexName: 'StyleSniffer',
 
       // Optional: see doc section below
