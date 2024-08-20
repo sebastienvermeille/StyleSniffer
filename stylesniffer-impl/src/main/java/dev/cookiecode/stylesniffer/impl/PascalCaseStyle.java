@@ -87,7 +87,7 @@ public class PascalCaseStyle implements CaseStyle {
           if (seenLowercase && isUpperCase(previousChar)) {
             continue;
           }
-          if (!seenLowercase || (seenLowercase && isLowerCase(previousChar))) {
+          if (!seenLowercase || isLowerCase(previousChar)) {
             continue;
           }
         }

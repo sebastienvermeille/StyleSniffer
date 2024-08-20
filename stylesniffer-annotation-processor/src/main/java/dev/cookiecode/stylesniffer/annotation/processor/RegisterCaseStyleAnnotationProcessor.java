@@ -25,7 +25,6 @@ package dev.cookiecode.stylesniffer.annotation.processor;
 import static java.time.LocalDateTime.now;
 import static java.time.ZoneOffset.UTC;
 import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME;
-import static java.util.stream.Collectors.toList;
 
 import dev.cookiecode.stylesniffer.annotation.RegisterCaseStyle;
 import dev.cookiecode.stylesniffer.api.CaseStyle;
@@ -128,13 +127,13 @@ public class RegisterCaseStyleAnnotationProcessor extends AbstractProcessor {
             List.class.getCanonicalName(),
             ArrayList.class.getCanonicalName(),
             IMPLEMENTED_INTERFACE_CLASS.getCanonicalName());
-    context.setVariable(TEMPLATE_VARIABLE_IMPORTS, imports.stream().sorted().collect(toList()));
+    context.setVariable(TEMPLATE_VARIABLE_IMPORTS, imports.stream().sorted().toList());
     context.setVariable(TEMPLATE_VARIABLE_CLASS_NAME, GENERATED_CLASS_NAME);
 
     final var classesList =
         elements.stream()
             .map(element -> ((TypeElement) element).getQualifiedName().toString())
-            .collect(toList());
+            .toList();
 
     context.setVariable(TEMPLATE_VARIABLE_ELEMENTS, classesList);
 
