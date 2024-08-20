@@ -55,7 +55,7 @@ public class StyleSniffer {
    * <p>This constructor attempts to register all case style classes that are annotated with
    * {@code @RegisterCaseStyle}.
    *
-   * @throws RuntimeException if there is an error during initialization
+   * @throws StyleSnifferException if there is an error during initialization
    */
   StyleSniffer() {
     try {
@@ -72,7 +72,7 @@ public class StyleSniffer {
    * instantiates them, adding them to the internal list of case styles. Any instantiation failures
    * are wrapped in a {@code RuntimeException}.
    *
-   * @throws RuntimeException if there is an error instantiating case style classes
+   * @throws StyleSnifferException if there is an error instantiating case style classes
    */
   private void registerAllAnnotatedCaseStyles() {
 
@@ -101,11 +101,26 @@ public class StyleSniffer {
    *     {@code Optional} if no match is found
    */
   public Optional<CaseStyle> getCaseStyle(@Nullable final String name) {
-    if (name == null || name.isEmpty()) {
+    final var sanitizedName = sanitizeInput(name);
+    if (sanitizedName == null || sanitizedName.isEmpty()) {
       return Optional.empty();
     }
 
     return this.caseStyles.stream().filter(style -> style.matches(name)).findFirst();
+  }
+
+  /**
+   * Performs basic sanity checks on the input, such as trimming whitespace.
+   *
+   * @param name the input name to sanitize
+   * @return the sanitized name or {@code null} if the input is invalid
+   */
+  private String sanitizeInput(@Nullable String name) {
+    if (name == null) {
+      return null;
+    }
+    // Trim the input string to remove leading and trailing whitespace
+    return name.trim();
   }
 
   /**

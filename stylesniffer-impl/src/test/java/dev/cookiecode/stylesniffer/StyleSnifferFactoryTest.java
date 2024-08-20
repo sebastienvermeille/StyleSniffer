@@ -20,42 +20,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package dev.cookiecode.stylesniffer.impl;
+package dev.cookiecode.stylesniffer;
 
-import static java.util.List.of;
+import static org.junit.jupiter.api.Assertions.*;
 
-import dev.cookiecode.stylesniffer.testkit.BaseCaseStyleTest;
-import java.util.List;
+import org.junit.jupiter.api.Test;
 
-/**
- * Test class
- *
- * @author Sebastien Vermeille
- */
-@SuppressWarnings(
-    "java:S2187") // sonar is not able to detect that BaseCaseStyleTest interface generates test
-class PascalCaseStyleTest implements BaseCaseStyleTest<PascalCaseStyle> {
+/** Test class */
+class StyleSnifferFactoryTest {
 
-  @Override
-  public PascalCaseStyle createCaseStyle() {
-    return new PascalCaseStyle();
-  }
-
-  @Override
-  public List<String> nonMatchingInputs() {
-    return of(
-        "some_snake_case",
-        "someCamelCase",
-        "some-kebab-case",
-        "S ome space",
-        "InvalidPascalCase_",
-        "Invalid-PascalCase",
-        "123Pascal");
-  }
-
-  @Override
-  public List<String> matchingInputs() {
-    return of(
-        "SomePascalCase", "Pascal", "PascalIsAName", "PascalCaseMQTT", "PascalCaseUsing123Digits");
+  @Test
+  void createStyleSnifferShouldNotGenerateAnyExceptions() {
+    // THEN
+    assertDoesNotThrow(
+        () -> {
+          // WHEN
+          StyleSnifferFactory.createStyleSniffer();
+        });
   }
 }

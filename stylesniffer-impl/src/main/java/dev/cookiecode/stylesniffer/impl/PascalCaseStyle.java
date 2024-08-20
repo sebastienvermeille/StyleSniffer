@@ -22,7 +22,6 @@
  */
 package dev.cookiecode.stylesniffer.impl;
 
-import static java.lang.Character.isLowerCase;
 import static java.lang.Character.isUpperCase;
 
 import dev.cookiecode.stylesniffer.annotation.RegisterCaseStyle;
@@ -62,6 +61,10 @@ public class PascalCaseStyle implements CaseStyle {
     return Set.of(this.getName(), "UpperCamelCase", "CamelCase");
   }
 
+  private Set<Character> invalidCharacters() {
+    return Set.of('_', ' ', '-', '*', ',', '\"', '\'', '#', '$', '@');
+  }
+
   /**
    * Determines if the given name is in PascalCase style.
    *
@@ -74,26 +77,34 @@ public class PascalCaseStyle implements CaseStyle {
    * @return {@code true} if the name is in PascalCase, {@code false} otherwise
    */
   private boolean isPascalCase(@NonNull final String name) {
-    if (isUpperCase(name.charAt(0)) && !name.contains("_") && !name.contains(" ")) {
-      boolean seenLowercase = false;
+    return !containsInvalidCharacters(name)
+        && startsWithUpperCase(name)
+        && followsPascalCasePattern(name);
+  }
 
-      for (int i = 1; i < name.length(); i++) {
-        final char currentChar = name.charAt(i);
-        final char previousChar = name.charAt(i - 1);
+  private boolean startsWithUpperCase(@NonNull final String name) {
+    return isUpperCase(name.charAt(0));
+  }
 
-        if (isLowerCase(currentChar)) {
-          seenLowercase = true;
-        } else if (isUpperCase(currentChar)) {
-          if (seenLowercase && isUpperCase(previousChar)) {
-            continue;
-          }
-          if (!seenLowercase || isLowerCase(previousChar)) {
-            continue;
-          }
+  private boolean followsPascalCasePattern(@NonNull final String name) {
+    boolean previousIsUpperCase = false;
+
+    for (int i = 1; i < name.length(); i++) {
+      char currentChar = name.charAt(i);
+
+      if (isUpperCase(currentChar)) {
+        if (previousIsUpperCase) {
+          continue;
         }
+        previousIsUpperCase = true;
+      } else {
+        previousIsUpperCase = false;
       }
-      return true;
     }
-    return false;
+    return true;
+  }
+
+  private boolean containsInvalidCharacters(@NonNull String name) {
+    return name.chars().anyMatch(c -> invalidCharacters().contains((char) c));
   }
 }
