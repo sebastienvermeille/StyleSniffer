@@ -56,7 +56,7 @@
     <sonar.projectKey>${project.sonar.root.projectKey}</sonar.projectKey>
     <sonar.sources>src/main/java</sonar.sources>
     <sonar.tests>src/test/java</sonar.tests>
-    <sonar.links.homepage>https://cookiecode.dev/oss_projects/StyleSniffer</sonar.links.homepage>
+    <sonar.links.homepage>https://stylesniffer.cookiecode.dev/</sonar.links.homepage>
     <sonar.links.scm>https://github.com/sebastienvermeille/StyleSniffer</sonar.links.scm>
 
     <!-- dependencies versions -->

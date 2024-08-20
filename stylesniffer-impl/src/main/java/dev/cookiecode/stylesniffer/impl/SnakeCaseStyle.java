@@ -71,11 +71,7 @@ public class SnakeCaseStyle implements CaseStyle {
    * @param name the name to check
    * @return {@code true} if the name is in snake_case, {@code false} otherwise
    */
-  private boolean isSnakeCase(
-      @NonNull
-          final String
-              name) { // TODO: consider creating an annotation @NonEmpty to indicate its handled
-    // upfront
+  private boolean isSnakeCase(@NonNull final String name) {
     // Check if the name is all lowercase and contains underscores
     boolean hasUnderscore = false;
     for (int i = 0; i < name.length(); i++) {
