@@ -94,7 +94,7 @@ const config: Config = {
     algolia: {
       appId: 'EZMGEWIN85',
       apiKey: '3b1214940933f3b63db5c2cebc4f1c19',
-      indexName: 'StyleSniffer',
+      indexName: 'stylesniffer',
 
       // Optional: see doc section below
       contextualSearch: true,
