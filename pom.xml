@@ -79,7 +79,7 @@
     <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
     <maven-javadoc-plugin.version>3.8.0</maven-javadoc-plugin.version>
     <maven-jacoco-plugin.version>0.8.12</maven-jacoco-plugin.version>
-    <maven-fmt-plugin.version>2.23</maven-fmt-plugin.version>
+    <maven-fmt-plugin.version>2.24</maven-fmt-plugin.version>
     <maven-license-plugin.version>4.5</maven-license-plugin.version>
     <maven-ayoy-license-verifier.version>1.2.0</maven-ayoy-license-verifier.version>
     <maven-sonar-plugin.version>4.0.0.4121</maven-sonar-plugin.version>
