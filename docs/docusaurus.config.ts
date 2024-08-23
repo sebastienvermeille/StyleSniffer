@@ -92,9 +92,9 @@ const config: Config = {
       darkTheme: prismThemes.dracula,
     },
     algolia: {
-      appId: '4M2DAO7VWX',
-      apiKey: 'a19f230ef456cc6046b0acf105bc1afd',
-      indexName: 'StyleSniffer',
+      appId: 'EZMGEWIN85',
+      apiKey: '3b1214940933f3b63db5c2cebc4f1c19',
+      indexName: 'stylesniffer',
 
       // Optional: see doc section below
       contextualSearch: true,
