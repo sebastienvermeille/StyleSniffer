@@ -41,7 +41,6 @@
 
     <properties>
         <stylesniffer.root>${basedir}/..</stylesniffer.root>
-        <sonar.projectKey>${project.sonar.root.projectKey}-${project.groupId}-${project.artifactId}</sonar.projectKey>
     </properties>
 
     <dependencies>
