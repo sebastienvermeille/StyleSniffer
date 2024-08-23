@@ -22,135 +22,72 @@
  */
 package dev.cookiecode.stylesniffer.annotation.processor;
 
-import static java.time.LocalDateTime.now;
-import static java.time.ZoneOffset.UTC;
-import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+import static lombok.AccessLevel.*;
 
-import dev.cookiecode.stylesniffer.annotation.RegisterCaseStyle;
-import dev.cookiecode.stylesniffer.api.CaseStyle;
+import com.google.common.annotations.VisibleForTesting;
 import java.io.IOException;
-import java.lang.annotation.Annotation;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
-import javax.annotation.processing.AbstractProcessor;
-import javax.annotation.processing.Generated;
-import javax.annotation.processing.RoundEnvironment;
-import javax.annotation.processing.SupportedAnnotationTypes;
-import javax.annotation.processing.SupportedSourceVersion;
+import javax.annotation.processing.*;
 import javax.lang.model.SourceVersion;
-import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
+import lombok.*;
 import lombok.extern.flogger.Flogger;
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.Context;
-import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
 /**
- * Processes the dev.cookiecode.stylesniffer.annotation.RegisterCaseStyle annotation, generating a
- * CaseStyleInjector class that registers all dev.cookiecode.stylesniffer.api.CaseStyle
- * implementations.
+ * Annotation processor for {@link dev.cookiecode.stylesniffer.annotation.RegisterCaseStyle}.
  *
- * <p>Uses Thymeleaf for code generation and Flogger for logging. Supports Java
- * SourceVersion.RELEASE_21.
+ * <p>This processor scans for classes annotated with {@code @RegisterCaseStyle}, collects them, and
+ * generates a {@code CaseStyleInjector} class using a template.
+ *
+ * <p>The actual processing tasks are delegated to {@link CaseStyleElementsCollector}, {@link
+ * TemplateRenderer}, and {@link FileWriter}, promoting the Single Responsibility Principle.
  *
  * @author Sebastien Vermeille
  * @see dev.cookiecode.stylesniffer.annotation.RegisterCaseStyle
  * @see dev.cookiecode.stylesniffer.api.CaseStyle
  */
+@NoArgsConstructor(access = PUBLIC)
+@AllArgsConstructor(
+    access = PACKAGE,
+    onConstructor_ = {@VisibleForTesting})
+@Getter(
+    value = PACKAGE,
+    onMethod_ = {@VisibleForTesting})
 @SupportedAnnotationTypes("dev.cookiecode.stylesniffer.annotation.RegisterCaseStyle")
 @SupportedSourceVersion(SourceVersion.RELEASE_21)
 @Flogger
 public class RegisterCaseStyleAnnotationProcessor extends AbstractProcessor {
 
-  private static final String GENERATED_CLASS_PACKAGE_NAME =
-      "dev.cookiecode.stylesniffer.generated";
-  private static final String GENERATED_CLASS_NAME = "CaseStyleInjector";
-  private static final String TEMPLATE_EXTENSION = ".tpl";
-  private static final String TEMPLATE_MODE = "TEXT";
-  private static final String UTF_8 = "UTF-8";
-  private static final String TEMPLATES_DIR = "templates/";
-  private static final String TEMPLATE_VARIABLE_PACKAGE_NAME = "packageName";
-  private static final String TEMPLATE_VARIABLE_IMPORTS = "imports";
-  private static final String TEMPLATE_VARIABLE_CLASS_NAME = "className";
-  private static final String TEMPLATE_VARIABLE_ELEMENTS = "elements";
-  private static final String TEMPLATE_VARIABLE_GENERATED_AT = "generatedAt";
-  private static final String TEMPLATE_FILE_NAME = "case_style_injector";
-  private static final String POINT = ".";
-  private static final Class<? extends Annotation> ANNOTATION_CLASS = RegisterCaseStyle.class;
-  private static final Class<?> IMPLEMENTED_INTERFACE_CLASS = CaseStyle.class;
+  // Common constants shared across classes
+  public static final String GENERATED_CLASS_PACKAGE_NAME = "dev.cookiecode.stylesniffer.generated";
+  public static final String GENERATED_CLASS_NAME = "CaseStyleInjector";
+
+  private TemplateRenderer templateRenderer;
+  private FileWriter fileWriter;
+  private CaseStyleElementsCollector elementsCollector;
+
+  @Override
+  public synchronized void init(@NonNull ProcessingEnvironment processingEnv) {
+    super.init(processingEnv);
+    final var templateEngine = new ProcessorTemplateEngine();
+    this.templateRenderer = new TemplateRenderer(templateEngine);
+    this.fileWriter = new FileWriter(processingEnv);
+    this.elementsCollector = new CaseStyleElementsCollector();
+  }
 
   @Override
   public boolean process(
-      final Set<? extends TypeElement> annotations, final RoundEnvironment roundEnv) {
-    final var annotatedElements = roundEnv.getElementsAnnotatedWith(ANNOTATION_CLASS);
-
-    if (!annotatedElements.isEmpty()) {
-      this.generateCaseStyleInjector(annotatedElements);
-    }
-
-    return true; // Indicates that annotations are claimed
-  }
-
-  private void generateCaseStyleInjector(final Set<? extends Element> elements) {
+      @NonNull Set<? extends TypeElement> annotations, @NonNull RoundEnvironment roundEnv) {
     try {
-      final var templateEngine = this.configureTemplateEngine();
-      final var context = this.prepareTemplateContext(elements);
-
-      final var generatedCode = templateEngine.process(TEMPLATE_FILE_NAME, context);
-      this.writeGeneratedClassToFile(generatedCode);
-
-    } catch (final IOException e) {
+      final var elements = elementsCollector.collectElements(roundEnv);
+      if (!elements.isEmpty()) {
+        final var generatedCode = templateRenderer.renderTemplate(elements);
+        fileWriter.writeToFile(generatedCode);
+      }
+    } catch (IOException e) {
       log.atSevere().withCause(e).log("Failed to generate the %s class", GENERATED_CLASS_NAME);
     }
-  }
 
-  private TemplateEngine configureTemplateEngine() {
-    final var templateResolver = new ClassLoaderTemplateResolver();
-    templateResolver.setPrefix(TEMPLATES_DIR);
-    templateResolver.setSuffix(TEMPLATE_EXTENSION);
-    templateResolver.setTemplateMode(TEMPLATE_MODE);
-    templateResolver.setCharacterEncoding(UTF_8);
-
-    final var templateEngine = new TemplateEngine();
-    templateEngine.setTemplateResolver(templateResolver);
-    return templateEngine;
-  }
-
-  private Context prepareTemplateContext(final Set<? extends Element> elements) {
-    final var context = new Context();
-    context.setVariable(TEMPLATE_VARIABLE_PACKAGE_NAME, GENERATED_CLASS_PACKAGE_NAME);
-
-    final var imports =
-        Set.of(
-            Generated.class.getCanonicalName(),
-            List.class.getCanonicalName(),
-            ArrayList.class.getCanonicalName(),
-            IMPLEMENTED_INTERFACE_CLASS.getCanonicalName());
-
-    context.setVariable(TEMPLATE_VARIABLE_IMPORTS, imports.stream().sorted().toList());
-    context.setVariable(TEMPLATE_VARIABLE_CLASS_NAME, GENERATED_CLASS_NAME);
-
-    final var classesList =
-        elements.stream()
-            .map(element -> ((TypeElement) element).getQualifiedName().toString())
-            .toList();
-
-    context.setVariable(TEMPLATE_VARIABLE_ELEMENTS, classesList);
-
-    final var moment = now(UTC).format(ISO_LOCAL_DATE_TIME);
-    context.setVariable(TEMPLATE_VARIABLE_GENERATED_AT, moment);
-
-    return context;
-  }
-
-  private void writeGeneratedClassToFile(final String generatedCode) throws IOException {
-    final var file =
-        this.processingEnv
-            .getFiler()
-            .createSourceFile(GENERATED_CLASS_PACKAGE_NAME + POINT + GENERATED_CLASS_NAME);
-    try (final var writer = file.openWriter()) {
-      writer.write(generatedCode);
-    }
+    return true;
   }
 }

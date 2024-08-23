@@ -71,7 +71,7 @@ import org.junit.jupiter.params.provider.MethodSource;
  * <h2>Usage Example</h2>
  *
  * <pre>{@code
- * public class CamelCaseStyleTest implements BaseCaseStyleTest<CamelCaseStyle> {
+ * public class CamelCaseStyleTest implements CaseStyleTestKit<CamelCaseStyle> {
  *
  *     @Override
  *     public CamelCaseStyle createCaseStyle() {
@@ -99,7 +99,7 @@ import org.junit.jupiter.params.provider.MethodSource;
  */
 @TestInstance(PER_CLASS)
 @SuppressWarnings("unused") // Used by implementers in other Maven modules
-public interface BaseCaseStyleTest<T extends CaseStyle> {
+public interface CaseStyleTestKit<T extends CaseStyle> {
 
   T createCaseStyle();
 

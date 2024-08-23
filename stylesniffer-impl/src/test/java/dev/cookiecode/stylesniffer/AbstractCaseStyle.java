@@ -22,24 +22,11 @@
  */
 package dev.cookiecode.stylesniffer;
 
-import dev.cookiecode.stylesniffer.generated.CaseStyleInjector;
-import lombok.experimental.UtilityClass;
+import dev.cookiecode.stylesniffer.api.CaseStyle;
 
 /**
- * Utility class for creating instances of {@link StyleSniffer}.
+ * Test class used by {@link StyleSnifferImplTest}
  *
  * @author Sebastien Vermeille
  */
-@UtilityClass
-public final class StyleSnifferFactory {
-
-  /**
-   * Creates and returns a new instance of {@link StyleSniffer}.
-   *
-   * @return a new {@link StyleSniffer} instance
-   */
-  public static StyleSniffer createStyleSniffer() {
-    final var caseStyleClasses = new CaseStyleInjector().getAnnotatedCaseStyles();
-    return new StyleSnifferImpl(caseStyleClasses);
-  }
-}
+public abstract class AbstractCaseStyle implements CaseStyle {}

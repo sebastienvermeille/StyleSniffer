@@ -20,26 +20,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package dev.cookiecode.stylesniffer;
+package dev.cookiecode.stylesniffer.api;
 
-import dev.cookiecode.stylesniffer.generated.CaseStyleInjector;
-import lombok.experimental.UtilityClass;
+import jakarta.annotation.Nullable;
 
 /**
- * Utility class for creating instances of {@link StyleSniffer}.
+ * Base implementation of the {@link CaseStyle} interface that provides default implementations for
+ * {@code equals} and {@code hashCode} based on the case style's name.
  *
  * @author Sebastien Vermeille
  */
-@UtilityClass
-public final class StyleSnifferFactory {
+public abstract class BaseCaseStyle implements CaseStyle {
 
-  /**
-   * Creates and returns a new instance of {@link StyleSniffer}.
-   *
-   * @return a new {@link StyleSniffer} instance
-   */
-  public static StyleSniffer createStyleSniffer() {
-    final var caseStyleClasses = new CaseStyleInjector().getAnnotatedCaseStyles();
-    return new StyleSnifferImpl(caseStyleClasses);
+  @Override
+  public boolean equals(@Nullable Object obj) {
+
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null || getClass() != obj.getClass()) {
+      return false;
+    }
+
+    CaseStyle caseStyle = (CaseStyle) obj;
+    return getName().equals(caseStyle.getName());
+  }
+
+  @Override
+  public int hashCode() {
+    return getName().hashCode();
   }
 }

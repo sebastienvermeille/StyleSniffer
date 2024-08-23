@@ -20,11 +20,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package dev.cookiecode.stylesniffer.impl;
+package dev.cookiecode.stylesniffer.impl.casestyle;
 
 import static java.util.List.of;
 
-import dev.cookiecode.stylesniffer.testkit.BaseCaseStyleTest;
+import dev.cookiecode.stylesniffer.testkit.CaseStyleTestKit;
 import java.util.List;
 
 /**
@@ -34,20 +34,20 @@ import java.util.List;
  */
 @SuppressWarnings(
     "java:S2187") // sonar is not able to detect that BaseCaseStyleTest interface generates test
-class KebabCaseStyleTest implements BaseCaseStyleTest<KebabCaseStyle> {
+class LowerCamelCaseStyleTest implements CaseStyleTestKit<LowerCamelCaseStyle> {
 
   @Override
-  public KebabCaseStyle createCaseStyle() {
-    return new KebabCaseStyle();
+  public LowerCamelCaseStyle createCaseStyle() {
+    return new LowerCamelCaseStyle();
   }
 
   @Override
   public List<String> nonMatchingInputs() {
-    return of("SomePascalCase", "someCamelCase", "some_snake_case");
+    return of("some_snake_case", "SomePascalCase", "some-kebab-case");
   }
 
   @Override
   public List<String> matchingInputs() {
-    return of("kebab-case", "this-is-kebab-case", "a-very-long-name-using-such-case-style");
+    return of("someCamelCase", "shouldStartWithLowerCaseOtherwiseItsPascalCase", "camel");
   }
 }

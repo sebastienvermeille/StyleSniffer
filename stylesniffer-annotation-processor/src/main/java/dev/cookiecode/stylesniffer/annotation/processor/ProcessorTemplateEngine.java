@@ -20,26 +20,35 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package dev.cookiecode.stylesniffer;
+package dev.cookiecode.stylesniffer.annotation.processor;
 
-import dev.cookiecode.stylesniffer.generated.CaseStyleInjector;
-import lombok.experimental.UtilityClass;
+import lombok.experimental.Delegate;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
 /**
- * Utility class for creating instances of {@link StyleSniffer}.
+ * Wrapper for Thymeleaf template engine pre-configured for the project
  *
  * @author Sebastien Vermeille
+ * @see TemplateEngine
  */
-@UtilityClass
-public final class StyleSnifferFactory {
+public class ProcessorTemplateEngine {
 
-  /**
-   * Creates and returns a new instance of {@link StyleSniffer}.
-   *
-   * @return a new {@link StyleSniffer} instance
-   */
-  public static StyleSniffer createStyleSniffer() {
-    final var caseStyleClasses = new CaseStyleInjector().getAnnotatedCaseStyles();
-    return new StyleSnifferImpl(caseStyleClasses);
+  private static final String TEMPLATES_DIR = "templates/";
+  private static final String TEMPLATE_EXTENSION = ".tpl";
+  private static final String TEMPLATE_MODE = "TEXT";
+  private static final String TEMPLATE_ENCODING = "UTF-8";
+
+  @Delegate(types = TemplateEngine.class)
+  private final TemplateEngine templateEngine = new TemplateEngine();
+
+  public ProcessorTemplateEngine() {
+    final var templateResolver = new ClassLoaderTemplateResolver();
+    templateResolver.setPrefix(TEMPLATES_DIR);
+    templateResolver.setSuffix(TEMPLATE_EXTENSION);
+    templateResolver.setTemplateMode(TEMPLATE_MODE);
+    templateResolver.setCharacterEncoding(TEMPLATE_ENCODING);
+
+    templateEngine.setTemplateResolver(templateResolver);
   }
 }

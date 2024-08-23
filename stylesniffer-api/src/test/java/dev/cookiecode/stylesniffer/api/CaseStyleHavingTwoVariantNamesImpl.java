@@ -20,26 +20,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package dev.cookiecode.stylesniffer;
+package dev.cookiecode.stylesniffer.api;
 
-import dev.cookiecode.stylesniffer.generated.CaseStyleInjector;
-import lombok.experimental.UtilityClass;
+import java.util.Set;
+import lombok.NonNull;
 
 /**
- * Utility class for creating instances of {@link StyleSniffer}.
+ * Dummy implementation of CaseStyle having some variant names
  *
  * @author Sebastien Vermeille
  */
-@UtilityClass
-public final class StyleSnifferFactory {
+public class CaseStyleHavingTwoVariantNamesImpl extends BaseCaseStyle {
+  @Override
+  public boolean matches(@NonNull String name) {
+    return false;
+  }
 
-  /**
-   * Creates and returns a new instance of {@link StyleSniffer}.
-   *
-   * @return a new {@link StyleSniffer} instance
-   */
-  public static StyleSniffer createStyleSniffer() {
-    final var caseStyleClasses = new CaseStyleInjector().getAnnotatedCaseStyles();
-    return new StyleSnifferImpl(caseStyleClasses);
+  @Override
+  public String getName() {
+    return "ManyVariantsNamesCaseStyle";
+  }
+
+  @Override
+  public Set<String> getVariantNames() {
+    return Set.of(getName(), "AnotherVariant", "andAlsoThatOne");
   }
 }

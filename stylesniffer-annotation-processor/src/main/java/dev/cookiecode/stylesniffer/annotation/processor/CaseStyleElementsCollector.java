@@ -20,26 +20,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package dev.cookiecode.stylesniffer;
+package dev.cookiecode.stylesniffer.annotation.processor;
 
-import dev.cookiecode.stylesniffer.generated.CaseStyleInjector;
-import lombok.experimental.UtilityClass;
+import dev.cookiecode.stylesniffer.annotation.RegisterCaseStyle;
+import java.lang.annotation.Annotation;
+import java.util.List;
+import javax.annotation.processing.RoundEnvironment;
+import javax.lang.model.element.TypeElement;
+import lombok.NonNull;
 
 /**
- * Utility class for creating instances of {@link StyleSniffer}.
+ * Collects elements annotated with {@link
+ * dev.cookiecode.stylesniffer.annotation.RegisterCaseStyle}.
+ *
+ * <p>This class is responsible for scanning the {@link RoundEnvironment} and extracting the fully
+ * qualified class names of elements annotated with {@code @RegisterCaseStyle}.
+ *
+ * <p>The collected class names are used in the template rendering process.
  *
  * @author Sebastien Vermeille
+ * @see dev.cookiecode.stylesniffer.annotation.RegisterCaseStyle
  */
-@UtilityClass
-public final class StyleSnifferFactory {
+public class CaseStyleElementsCollector {
 
-  /**
-   * Creates and returns a new instance of {@link StyleSniffer}.
-   *
-   * @return a new {@link StyleSniffer} instance
-   */
-  public static StyleSniffer createStyleSniffer() {
-    final var caseStyleClasses = new CaseStyleInjector().getAnnotatedCaseStyles();
-    return new StyleSnifferImpl(caseStyleClasses);
+  static final Class<? extends Annotation> ANNOTATION_CLASS = RegisterCaseStyle.class;
+
+  public List<String> collectElements(@NonNull RoundEnvironment roundEnv) {
+    return roundEnv.getElementsAnnotatedWith(ANNOTATION_CLASS).stream()
+        .map(element -> ((TypeElement) element).getQualifiedName().toString())
+        .toList();
   }
 }

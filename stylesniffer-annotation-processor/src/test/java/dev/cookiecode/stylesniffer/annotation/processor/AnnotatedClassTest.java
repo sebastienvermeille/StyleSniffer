@@ -20,26 +20,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package dev.cookiecode.stylesniffer;
+package dev.cookiecode.stylesniffer.annotation.processor;
 
-import dev.cookiecode.stylesniffer.generated.CaseStyleInjector;
-import lombok.experimental.UtilityClass;
+import dev.cookiecode.stylesniffer.annotation.RegisterCaseStyle;
 
 /**
- * Utility class for creating instances of {@link StyleSniffer}.
+ * Test class This class ensure that the annotation can be applied on the class (breaks compilation
+ * in case of changes in @RegisterCaseStyle) and is used in different mocks
  *
  * @author Sebastien Vermeille
  */
-@UtilityClass
-public final class StyleSnifferFactory {
-
-  /**
-   * Creates and returns a new instance of {@link StyleSniffer}.
-   *
-   * @return a new {@link StyleSniffer} instance
-   */
-  public static StyleSniffer createStyleSniffer() {
-    final var caseStyleClasses = new CaseStyleInjector().getAnnotatedCaseStyles();
-    return new StyleSnifferImpl(caseStyleClasses);
-  }
-}
+@RegisterCaseStyle
+@SuppressWarnings("java:S2187") // This is a compile time test
+public class AnnotatedClassTest {}

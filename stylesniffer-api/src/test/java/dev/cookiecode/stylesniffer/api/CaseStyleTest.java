@@ -20,26 +20,41 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package dev.cookiecode.stylesniffer;
+package dev.cookiecode.stylesniffer.api;
 
-import dev.cookiecode.stylesniffer.generated.CaseStyleInjector;
-import lombok.experimental.UtilityClass;
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.Set;
+import org.junit.jupiter.api.Test;
 
 /**
- * Utility class for creating instances of {@link StyleSniffer}.
+ * Test class
  *
  * @author Sebastien Vermeille
  */
-@UtilityClass
-public final class StyleSnifferFactory {
+class CaseStyleTest {
 
-  /**
-   * Creates and returns a new instance of {@link StyleSniffer}.
-   *
-   * @return a new {@link StyleSniffer} instance
-   */
-  public static StyleSniffer createStyleSniffer() {
-    final var caseStyleClasses = new CaseStyleInjector().getAnnotatedCaseStyles();
-    return new StyleSnifferImpl(caseStyleClasses);
+  @Test
+  void getVariantNamesShouldReturnByDefaultOnlyTheCaseStyleName() {
+    // GIVEN
+    final CaseStyle caseStyle = new CaseStyleHavingNoVariantNamesImpl();
+
+    // WHEN
+    final var actualVariantNames = caseStyle.getVariantNames();
+
+    // THEN
+    assertThat(actualVariantNames).hasSize(1).containsOnly(caseStyle.getName());
+  }
+
+  @Test
+  void getVariantNamesShouldReturnTheCompleteListOfVariantNamesWhenOverride() {
+    // GIVEN
+    final CaseStyle caseStyle = new CaseStyleHavingTwoVariantNamesImpl();
+
+    // WHEN
+    final var actualVariantNames = caseStyle.getVariantNames();
+
+    // THEN
+    assertThat(actualVariantNames).hasSizeGreaterThan(1).isNotSameAs(Set.of(caseStyle.getName()));
   }
 }

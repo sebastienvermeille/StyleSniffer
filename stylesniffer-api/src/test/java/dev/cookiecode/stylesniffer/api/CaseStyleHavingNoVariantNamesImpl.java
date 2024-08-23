@@ -20,34 +20,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package dev.cookiecode.stylesniffer.impl;
+package dev.cookiecode.stylesniffer.api;
 
-import static java.util.List.of;
-
-import dev.cookiecode.stylesniffer.testkit.BaseCaseStyleTest;
-import java.util.List;
+import lombok.NonNull;
 
 /**
- * Test class
+ * Dummy implementation of CaseStyle having no variant names
  *
  * @author Sebastien Vermeille
  */
-@SuppressWarnings(
-    "java:S2187") // sonar is not able to detect that BaseCaseStyleTest interface generates test
-class LowerCamelCaseStyleTest implements BaseCaseStyleTest<LowerCamelCaseStyle> {
-
+public class CaseStyleHavingNoVariantNamesImpl extends BaseCaseStyle {
   @Override
-  public LowerCamelCaseStyle createCaseStyle() {
-    return new LowerCamelCaseStyle();
+  public boolean matches(@NonNull String name) {
+    return false;
   }
 
   @Override
-  public List<String> nonMatchingInputs() {
-    return of("some_snake_case", "SomePascalCase", "some-kebab-case");
+  public String getName() {
+    return "CaseStyleHavingNoVariantName";
   }
 
-  @Override
-  public List<String> matchingInputs() {
-    return of("someCamelCase", "shouldStartWithLowerCaseOtherwiseItsPascalCase", "camel");
-  }
+  // intentionally do not override getVariantNames(); (used in a test)
 }

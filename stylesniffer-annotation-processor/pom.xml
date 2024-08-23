@@ -29,6 +29,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>stylesniffer-annotation-processor</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <parent>
@@ -38,15 +39,24 @@
   </parent>
 
   <properties>
-    <maven.compiler.source>${java.sdk.version}</maven.compiler.source>
-    <maven.compiler.target>${java.sdk.version}</maven.compiler.target>
-    <project.build.sourceEncoding>${source.encoding}</project.build.sourceEncoding>
     <stylesniffer.root>${basedir}/..</stylesniffer.root>
-    <!-- sonar analysis -->
     <sonar.projectKey>${project.sonar.root.projectKey}-${project.groupId}-${project.artifactId}</sonar.projectKey>
   </properties>
 
   <dependencies>
+    <!-- Core Dependencies -->
+    <dependency>
+      <groupId>org.thymeleaf</groupId>
+      <artifactId>thymeleaf</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>dev.cookiecode</groupId>
+      <artifactId>stylesniffer-api</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <!-- Annotation Processing -->
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
@@ -55,32 +65,45 @@
       <groupId>com.google.auto.service</groupId>
       <artifactId>auto-service</artifactId>
     </dependency>
+
+    <!-- Logging -->
     <dependency>
-      <groupId>org.thymeleaf</groupId>
-      <artifactId>thymeleaf</artifactId>
-    </dependency>
-    <dependency>
+      <groupId>com.google.flogger</groupId>
       <artifactId>flogger</artifactId>
-      <groupId>com.google.flogger</groupId>
     </dependency>
     <dependency>
+      <groupId>com.google.flogger</groupId>
       <artifactId>flogger-slf4j-backend</artifactId>
-      <groupId>com.google.flogger</groupId>
     </dependency>
     <dependency>
-      <artifactId>slf4j-api</artifactId>
       <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
     </dependency>
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
     </dependency>
 
+    <!-- Testing -->
     <dependency>
-      <groupId>dev.cookiecode</groupId>
-      <artifactId>stylesniffer-api</artifactId>
-      <version>1.0.0-SNAPSHOT</version>
-      <scope>compile</scope>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-junit-jupiter</artifactId>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 

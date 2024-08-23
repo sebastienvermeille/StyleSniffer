@@ -20,26 +20,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package dev.cookiecode.stylesniffer;
+package dev.cookiecode.stylesniffer.impl.casestyle;
 
-import dev.cookiecode.stylesniffer.generated.CaseStyleInjector;
-import lombok.experimental.UtilityClass;
+import dev.cookiecode.stylesniffer.testkit.CaseStyleTestKit;
+import java.util.List;
 
 /**
- * Utility class for creating instances of {@link StyleSniffer}.
+ * Test class
  *
  * @author Sebastien Vermeille
  */
-@UtilityClass
-public final class StyleSnifferFactory {
+@SuppressWarnings(
+    "java:S2187") // sonar is not able to detect that BaseCaseStyleTest interface generates test
+class SnakeCaseStyleTest implements CaseStyleTestKit<SnakeCaseStyle> {
 
-  /**
-   * Creates and returns a new instance of {@link StyleSniffer}.
-   *
-   * @return a new {@link StyleSniffer} instance
-   */
-  public static StyleSniffer createStyleSniffer() {
-    final var caseStyleClasses = new CaseStyleInjector().getAnnotatedCaseStyles();
-    return new StyleSnifferImpl(caseStyleClasses);
+  @Override
+  public SnakeCaseStyle createCaseStyle() {
+    return new SnakeCaseStyle();
+  }
+
+  @Override
+  public List<String> nonMatchingInputs() {
+    return List.of("SomePascalCase", "someCamelCase", "some-kebab-case");
+  }
+
+  @Override
+  public List<String> matchingInputs() {
+    return List.of("snake_case_input", "another_input", "a_very_long_name_using_such_case_style");
   }
 }

@@ -20,9 +20,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package dev.cookiecode.stylesniffer.impl;
+package dev.cookiecode.stylesniffer.impl.casestyle;
 
-import dev.cookiecode.stylesniffer.testkit.BaseCaseStyleTest;
+import static java.util.List.of;
+
+import dev.cookiecode.stylesniffer.testkit.CaseStyleTestKit;
 import java.util.List;
 
 /**
@@ -32,20 +34,28 @@ import java.util.List;
  */
 @SuppressWarnings(
     "java:S2187") // sonar is not able to detect that BaseCaseStyleTest interface generates test
-class SnakeCaseStyleTest implements BaseCaseStyleTest<SnakeCaseStyle> {
+class PascalCaseStyleTest implements CaseStyleTestKit<PascalCaseStyle> {
 
   @Override
-  public SnakeCaseStyle createCaseStyle() {
-    return new SnakeCaseStyle();
+  public PascalCaseStyle createCaseStyle() {
+    return new PascalCaseStyle();
   }
 
   @Override
   public List<String> nonMatchingInputs() {
-    return List.of("SomePascalCase", "someCamelCase", "some-kebab-case");
+    return of(
+        "some_snake_case",
+        "someCamelCase",
+        "some-kebab-case",
+        "S ome space",
+        "InvalidPascalCase_",
+        "Invalid-PascalCase",
+        "123Pascal");
   }
 
   @Override
   public List<String> matchingInputs() {
-    return List.of("snake_case_input", "another_input", "a_very_long_name_using_such_case_style");
+    return of(
+        "SomePascalCase", "Pascal", "PascalIsAName", "PascalCaseMQTT", "PascalCaseUsing123Digits");
   }
 }

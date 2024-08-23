@@ -20,42 +20,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package dev.cookiecode.stylesniffer.impl;
+package dev.cookiecode.stylesniffer;
 
-import static java.util.List.of;
-
-import dev.cookiecode.stylesniffer.testkit.BaseCaseStyleTest;
-import java.util.List;
+import dev.cookiecode.stylesniffer.api.BaseCaseStyle;
+import lombok.NonNull;
 
 /**
- * Test class
+ * Test class used by {@link StyleSnifferImplTest}
  *
  * @author Sebastien Vermeille
  */
-@SuppressWarnings(
-    "java:S2187") // sonar is not able to detect that BaseCaseStyleTest interface generates test
-class ScreamingSnakeCaseStyleTest implements BaseCaseStyleTest<ScreamingSnakeCaseStyle> {
+public class FaultyCaseStyleWithRuntimeException extends BaseCaseStyle {
 
-  @Override
-  public ScreamingSnakeCaseStyle createCaseStyle() {
-    return new ScreamingSnakeCaseStyle();
+  public FaultyCaseStyleWithRuntimeException() {
+    throw new RuntimeException("Runtime exception");
   }
 
   @Override
-  public List<String> nonMatchingInputs() {
-    return of(
-        "SomePascalCase",
-        "someCamelCase",
-        "some-kebab-case",
-        "some_snake_case",
-        "Screaming_Snake_Case",
-        "SCREAMING__SNAKE_CASE",
-        "_SCREAMING_SNAKE_CASE",
-        "SCREAMING_SNAKE_CASE_");
+  public boolean matches(@NonNull String name) {
+    return false;
   }
 
   @Override
-  public List<String> matchingInputs() {
-    return of("SCREAMING_WILL_NOT_MAKE_IT_BETTER", "SOME_VALUE");
+  public String getName() {
+    return "DummyCaseStyle";
   }
 }

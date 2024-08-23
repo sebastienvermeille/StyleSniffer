@@ -20,26 +20,24 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package dev.cookiecode.stylesniffer;
+package dev.cookiecode.stylesniffer.testkit;
 
-import dev.cookiecode.stylesniffer.generated.CaseStyleInjector;
-import lombok.experimental.UtilityClass;
+import dev.cookiecode.stylesniffer.api.BaseCaseStyle;
+import lombok.NonNull;
 
 /**
- * Utility class for creating instances of {@link StyleSniffer}.
+ * Test class A dummy implementation of CaseStyle used for testing purpose
  *
  * @author Sebastien Vermeille
  */
-@UtilityClass
-public final class StyleSnifferFactory {
+public class DummyCaseStyle extends BaseCaseStyle {
+  @Override
+  public boolean matches(@NonNull String name) {
+    return name.contains("dummy");
+  }
 
-  /**
-   * Creates and returns a new instance of {@link StyleSniffer}.
-   *
-   * @return a new {@link StyleSniffer} instance
-   */
-  public static StyleSniffer createStyleSniffer() {
-    final var caseStyleClasses = new CaseStyleInjector().getAnnotatedCaseStyles();
-    return new StyleSnifferImpl(caseStyleClasses);
+  @Override
+  public String getName() {
+    return "dummyStyle";
   }
 }

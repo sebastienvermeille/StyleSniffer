@@ -20,26 +20,42 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package dev.cookiecode.stylesniffer;
+package dev.cookiecode.stylesniffer.impl.casestyle;
 
-import dev.cookiecode.stylesniffer.generated.CaseStyleInjector;
-import lombok.experimental.UtilityClass;
+import static java.util.List.of;
+
+import dev.cookiecode.stylesniffer.testkit.CaseStyleTestKit;
+import java.util.List;
 
 /**
- * Utility class for creating instances of {@link StyleSniffer}.
+ * Test class
  *
  * @author Sebastien Vermeille
  */
-@UtilityClass
-public final class StyleSnifferFactory {
+@SuppressWarnings(
+    "java:S2187") // sonar is not able to detect that BaseCaseStyleTest interface generates test
+class ScreamingSnakeCaseStyleTest implements CaseStyleTestKit<ScreamingSnakeCaseStyle> {
 
-  /**
-   * Creates and returns a new instance of {@link StyleSniffer}.
-   *
-   * @return a new {@link StyleSniffer} instance
-   */
-  public static StyleSniffer createStyleSniffer() {
-    final var caseStyleClasses = new CaseStyleInjector().getAnnotatedCaseStyles();
-    return new StyleSnifferImpl(caseStyleClasses);
+  @Override
+  public ScreamingSnakeCaseStyle createCaseStyle() {
+    return new ScreamingSnakeCaseStyle();
+  }
+
+  @Override
+  public List<String> nonMatchingInputs() {
+    return of(
+        "SomePascalCase",
+        "someCamelCase",
+        "some-kebab-case",
+        "some_snake_case",
+        "Screaming_Snake_Case",
+        "SCREAMING__SNAKE_CASE",
+        "_SCREAMING_SNAKE_CASE",
+        "SCREAMING_SNAKE_CASE_");
+  }
+
+  @Override
+  public List<String> matchingInputs() {
+    return of("SCREAMING_WILL_NOT_MAKE_IT_BETTER", "SOME_VALUE");
   }
 }

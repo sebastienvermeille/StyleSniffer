@@ -22,18 +22,28 @@
  */
 package dev.cookiecode.stylesniffer.api;
 
+import static java.util.Collections.unmodifiableSet;
 import static java.util.Set.of;
 
+import jakarta.annotation.Nullable;
 import java.util.Set;
 import lombok.NonNull;
 
 /**
  * Represents a naming convention (case style) that can be matched against a given string.
  *
+ * @implNote Implementations should define specific case styles such as camelCase, snake_case, etc.
+ *     Each case style must have a unique name and may have variant names.
  * @author Sebastien Vermeille
  */
 public interface CaseStyle {
 
+  /**
+   * Determines if the given string matches this case style.
+   *
+   * @param name the string to be checked, must not be null
+   * @return true if the string matches this case style, false otherwise
+   */
   boolean matches(@NonNull String name);
 
   /**
@@ -44,12 +54,20 @@ public interface CaseStyle {
   String getName();
 
   /**
-   * Returns a set of variant names for the case style (e.g., "PascalCase" and "UpperCamelCase").
-   * Implementations should override this method to provide variant names if applicable.
+   * Returns a set of variant names for the case style (e.g., "PascalCase" and "UpperCamelCase"). By
+   * default, only the primary name is returned.
    *
-   * @return a set of variant names
+   * @return an immutable set of variant names
    */
   default Set<String> getVariantNames() {
-    return of(this.getName()); // By default, return only the primary name
+    return unmodifiableSet(of(getName()));
   }
+
+  /**
+   * Determines equality based on the {@link #getName()} method.
+   *
+   * @param object the object to compare with
+   * @return true if the given object is a {@code CaseStyle} with the same name, false otherwise
+   */
+  boolean equals(@Nullable Object object);
 }

@@ -22,24 +22,25 @@
  */
 package dev.cookiecode.stylesniffer;
 
-import dev.cookiecode.stylesniffer.generated.CaseStyleInjector;
-import lombok.experimental.UtilityClass;
+import dev.cookiecode.stylesniffer.api.BaseCaseStyle;
+import lombok.NonNull;
 
 /**
- * Utility class for creating instances of {@link StyleSniffer}.
+ * Test class used by {@link StyleSnifferImplTest}
  *
  * @author Sebastien Vermeille
  */
-@UtilityClass
-public final class StyleSnifferFactory {
+public class FaultyCaseStyleWithoutPublicConstructor extends BaseCaseStyle {
 
-  /**
-   * Creates and returns a new instance of {@link StyleSniffer}.
-   *
-   * @return a new {@link StyleSniffer} instance
-   */
-  public static StyleSniffer createStyleSniffer() {
-    final var caseStyleClasses = new CaseStyleInjector().getAnnotatedCaseStyles();
-    return new StyleSnifferImpl(caseStyleClasses);
+  private FaultyCaseStyleWithoutPublicConstructor() {}
+
+  @Override
+  public boolean matches(@NonNull String name) {
+    return false;
+  }
+
+  @Override
+  public String getName() {
+    return "DummyCaseStyle";
   }
 }

@@ -22,24 +22,40 @@
  */
 package dev.cookiecode.stylesniffer;
 
-import dev.cookiecode.stylesniffer.generated.CaseStyleInjector;
-import lombok.experimental.UtilityClass;
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.lang.reflect.Constructor;
+import org.junit.jupiter.api.Test;
 
 /**
- * Utility class for creating instances of {@link StyleSniffer}.
+ * Test class
  *
  * @author Sebastien Vermeille
  */
-@UtilityClass
-public final class StyleSnifferFactory {
+class StyleSnifferFactoryTest {
 
-  /**
-   * Creates and returns a new instance of {@link StyleSniffer}.
-   *
-   * @return a new {@link StyleSniffer} instance
-   */
-  public static StyleSniffer createStyleSniffer() {
-    final var caseStyleClasses = new CaseStyleInjector().getAnnotatedCaseStyles();
-    return new StyleSnifferImpl(caseStyleClasses);
+  @Test
+  void createStyleSnifferShouldNotGenerateAnyExceptions() {
+    // THEN
+    assertDoesNotThrow(
+        () -> {
+          // WHEN
+          final var instance = StyleSnifferFactory.createStyleSniffer();
+          instance.getCaseStyle("PascalCaseInput");
+        });
+  }
+
+  @Test
+  void instantiateStyleSnifferShouldNotThrowExceptions() {
+    assertDoesNotThrow(
+        () -> {
+          // GIVEN
+          Constructor<StyleSnifferFactory> constructor =
+              StyleSnifferFactory.class.getDeclaredConstructor();
+          constructor.setAccessible(true);
+
+          // WHEN
+          constructor.newInstance();
+        });
   }
 }
