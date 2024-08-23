@@ -52,17 +52,18 @@ class FileWriterTest {
   @InjectMocks private FileWriter fileWriter;
 
   @Test
-  void writeToFileShouldThrowAnIOExceptionGivenThereIsAnIssue() {
-    assertThrows(
+  void writeToFileShouldThrowAnIOExceptionGivenThereIsAnIssue() throws Exception {
+      // GIVEN
+      final var filerMock = mock(Filer.class);
+      doThrow(new IOException("IO error")).when(filerMock).createSourceFile(anyString());
+      when(processingEnvironment.getFiler()).thenReturn(filerMock);
+
+      final var someValidCode = "some code that is not generating any error.";
+
+
+      assertThrows(
         IOException.class,
         () -> {
-          // GIVEN
-          final var filerMock = mock(Filer.class);
-          doThrow(new IOException("IO error")).when(filerMock).createSourceFile(anyString());
-          when(processingEnvironment.getFiler()).thenReturn(filerMock);
-
-          final var someValidCode = "some code that is not generating any error.";
-
           // WHEN
           fileWriter.writeToFile(someValidCode);
         });

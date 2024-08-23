@@ -50,6 +50,6 @@ public class CaseStyleElementsCollector {
   public List<String> collectElements(@NonNull RoundEnvironment roundEnv) {
     return roundEnv.getElementsAnnotatedWith(ANNOTATION_CLASS).stream()
         .map(element -> ((TypeElement) element).getQualifiedName().toString())
-        .collect(toList());
+        .toList();
   }
 }

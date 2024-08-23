@@ -46,8 +46,7 @@ class StyleSnifferFactoryTest {
   }
 
   @Test
-  public void instantiateStyleSnifferShouldNotThrowExceptions() {
-
+  void instantiateStyleSnifferShouldNotThrowExceptions() {
     assertDoesNotThrow(
         () -> {
           // GIVEN

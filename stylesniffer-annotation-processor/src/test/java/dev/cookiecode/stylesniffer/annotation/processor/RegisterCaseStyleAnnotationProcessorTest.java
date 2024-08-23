@@ -55,9 +55,6 @@ class RegisterCaseStyleAnnotationProcessorTest {
 
   @InjectMocks private RegisterCaseStyleAnnotationProcessor processor;
 
-  @BeforeEach
-  void setUp() {}
-
   @Test
   void processShouldReturnTrueEvenIfNoElementsWereRegistered() {
     // GIVEN
@@ -144,15 +141,15 @@ class RegisterCaseStyleAnnotationProcessorTest {
   void initShouldInitAllRequiredFields() {
     // GIVEN
     final var processingEnv = mock(ProcessingEnvironment.class);
-    final var processor = new RegisterCaseStyleAnnotationProcessor(); // no injected mocks
+    final var processorWithoutInjectedMocks = new RegisterCaseStyleAnnotationProcessor();
 
     // WHEN
-    processor.init(processingEnv);
+    processorWithoutInjectedMocks.init(processingEnv);
 
     // THEN
-    assertThat(processor.getTemplateRenderer()).isNotNull();
-    assertThat(processor.getFileWriter()).isNotNull();
-    assertThat(processor.getElementsCollector()).isNotNull();
+    assertThat(processorWithoutInjectedMocks.getTemplateRenderer()).isNotNull();
+    assertThat(processorWithoutInjectedMocks.getFileWriter()).isNotNull();
+    assertThat(processorWithoutInjectedMocks.getElementsCollector()).isNotNull();
   }
 
   private RoundEnvironment noCaseStyleAnnotatedElements() {

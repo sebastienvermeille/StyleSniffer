@@ -31,4 +31,5 @@ import dev.cookiecode.stylesniffer.annotation.RegisterCaseStyle;
  * @author Sebastien Vermeille
  */
 @RegisterCaseStyle
+@SuppressWarnings("java:S2187") // This is a compile time test
 public class AnnotatedClassTest {}

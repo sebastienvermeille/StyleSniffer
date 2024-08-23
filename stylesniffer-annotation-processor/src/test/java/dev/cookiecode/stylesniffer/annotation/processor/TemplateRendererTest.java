@@ -56,12 +56,12 @@ class TemplateRendererTest {
 
   @Test
   void renderTemplateShouldThrowAnIllegalStateExceptionGivenItReceivesAnEmptyListOfElements() {
+    // GIVEN
+    final List<String> emptyElements = emptyList();
+
     assertThrows(
         IllegalStateException.class,
         () -> {
-          // GIVEN
-          final List<String> emptyElements = emptyList();
-
           // WHEN
           templateRenderer.renderTemplate(emptyElements);
         });
@@ -97,12 +97,12 @@ class TemplateRendererTest {
   @Test
   void
       prepareTemplateContextShouldThrowAnIllegalStateExceptionGivenItReceivesAnEmptyListOfElements() {
+    // GIVEN
+    final List<String> emptyElements = emptyList();
+
     assertThrows(
         IllegalStateException.class,
         () -> {
-          // GIVEN
-          final List<String> emptyElements = emptyList();
-
           // WHEN
           templateRenderer.prepareTemplateContext(emptyElements);
         });

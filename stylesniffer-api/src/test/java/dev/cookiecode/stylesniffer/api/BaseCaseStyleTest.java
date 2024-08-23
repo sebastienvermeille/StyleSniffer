@@ -23,7 +23,6 @@
 package dev.cookiecode.stylesniffer.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
@@ -99,7 +98,7 @@ class BaseCaseStyleTest {
     final var actualResult = caseStyleInstance.hashCode(nullCaseStyle);
 
     // THEN
-    assertThat(actualResult).isEqualTo(0);
+    assertThat(actualResult).isZero();
   }
 
   @Test
