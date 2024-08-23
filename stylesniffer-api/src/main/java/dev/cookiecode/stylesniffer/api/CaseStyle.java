@@ -63,5 +63,5 @@ public interface CaseStyle {
     return unmodifiableSet(of(getName()));
   }
 
-  boolean equals(@Nullable CaseStyle otherCaseStyle);
+  boolean equals(@Nullable Object otherCaseStyle);
 }

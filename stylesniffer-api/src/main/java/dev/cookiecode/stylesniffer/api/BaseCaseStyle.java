@@ -32,13 +32,24 @@ import jakarta.annotation.Nullable;
  */
 public abstract class BaseCaseStyle implements CaseStyle {
 
+  @Override
+  public boolean equals(@Nullable Object obj) {
+    if(obj == null){
+      return false;
+    }
+    if(obj instanceof CaseStyle caseStyle){
+      return equals(caseStyle);
+    } else {
+      return false;
+    }
+  }
+
   /**
    * Determines equality based on the {@link #getName()} method.
    *
    * @param otherCaseStyle the object to compare with
    * @return true if the given object is a {@code CaseStyle} with the same name, false otherwise
    */
-  @Override
   public boolean equals(@Nullable final CaseStyle otherCaseStyle) {
     if (this == otherCaseStyle) {
       return true;
