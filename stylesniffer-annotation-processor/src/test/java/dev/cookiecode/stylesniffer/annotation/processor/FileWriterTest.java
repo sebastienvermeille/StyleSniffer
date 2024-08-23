@@ -53,15 +53,14 @@ class FileWriterTest {
 
   @Test
   void writeToFileShouldThrowAnIOExceptionGivenThereIsAnIssue() throws Exception {
-      // GIVEN
-      final var filerMock = mock(Filer.class);
-      doThrow(new IOException("IO error")).when(filerMock).createSourceFile(anyString());
-      when(processingEnvironment.getFiler()).thenReturn(filerMock);
+    // GIVEN
+    final var filerMock = mock(Filer.class);
+    doThrow(new IOException("IO error")).when(filerMock).createSourceFile(anyString());
+    when(processingEnvironment.getFiler()).thenReturn(filerMock);
 
-      final var someValidCode = "some code that is not generating any error.";
+    final var someValidCode = "some code that is not generating any error.";
 
-
-      assertThrows(
+    assertThrows(
         IOException.class,
         () -> {
           // WHEN

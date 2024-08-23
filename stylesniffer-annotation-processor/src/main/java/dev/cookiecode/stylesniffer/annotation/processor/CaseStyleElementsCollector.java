@@ -22,7 +22,6 @@
  */
 package dev.cookiecode.stylesniffer.annotation.processor;
 
-import static java.util.stream.Collectors.toList;
 
 import dev.cookiecode.stylesniffer.annotation.RegisterCaseStyle;
 import java.lang.annotation.Annotation;

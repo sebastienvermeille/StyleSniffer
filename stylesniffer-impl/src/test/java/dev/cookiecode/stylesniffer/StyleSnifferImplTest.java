@@ -316,7 +316,7 @@ class StyleSnifferImplTest {
 
     // THEN
     assertThat(actuallySupportedCaseStyle)
-            .containsAll(pascalCaseStyle.getVariantNames())
-            .contains(pascalCaseStyle.getName());
+        .containsAll(pascalCaseStyle.getVariantNames())
+        .contains(pascalCaseStyle.getName());
   }
 }
