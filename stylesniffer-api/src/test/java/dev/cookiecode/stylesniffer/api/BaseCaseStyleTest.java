@@ -88,26 +88,12 @@ class BaseCaseStyleTest {
   }
 
   @Test
-  void hashCodeShouldReturn0GivenNullIsProvided() {
-    // GIVEN
-    final CaseStyle nullCaseStyle = null;
-
-    final var caseStyleInstance = new CaseStyleHavingNoVariantNamesImpl();
-
-    // WHEN
-    final var actualResult = caseStyleInstance.hashCode(nullCaseStyle);
-
-    // THEN
-    assertThat(actualResult).isZero();
-  }
-
-  @Test
   void hashCodeShouldReturnAUniqueValueBasedOnTheNameGivenACaseStyleIsProvided() {
     // GIVEN
     final var caseStyleInstance = new CaseStyleHavingNoVariantNamesImpl();
 
     // WHEN
-    final var actualResult = caseStyleInstance.hashCode(caseStyleInstance);
+    final var actualResult = caseStyleInstance.hashCode();
 
     // THEN
     assertThat(actualResult).isEqualTo(caseStyleInstance.getName().hashCode());

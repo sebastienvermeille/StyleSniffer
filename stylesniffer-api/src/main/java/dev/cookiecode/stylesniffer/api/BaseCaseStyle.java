@@ -46,15 +46,8 @@ public abstract class BaseCaseStyle implements CaseStyle {
     return getName().equals(caseStyle.getName());
   }
 
-  /**
-   * Returns a hash code based on the {@link #getName()} method.
-   *
-   * @return the hash code of the case style's name
-   */
-  public int hashCode(@Nullable Object obj) {
-    if (obj instanceof CaseStyle style) {
-      return style.getName().hashCode();
-    }
-    return 0;
+  @Override
+  public int hashCode() {
+    return getName().hashCode();
   }
 }
