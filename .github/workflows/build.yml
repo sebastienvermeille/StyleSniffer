@@ -53,6 +53,7 @@ jobs:
         with:
           name: BUILD_FILES
           path: |
+            stylesniffer-report-aggregate/target
             stylesniffer-annotation-processor/target
             stylesniffer-api/target
             stylesniffer-impl/target
