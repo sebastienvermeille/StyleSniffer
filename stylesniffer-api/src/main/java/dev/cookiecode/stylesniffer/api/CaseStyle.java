@@ -63,5 +63,11 @@ public interface CaseStyle {
     return unmodifiableSet(of(getName()));
   }
 
-  boolean equals(@Nullable Object otherCaseStyle);
+  /**
+   * Determines equality based on the {@link #getName()} method.
+   *
+   * @param object the object to compare with
+   * @return true if the given object is a {@code CaseStyle} with the same name, false otherwise
+   */
+  boolean equals(@Nullable Object object);
 }
