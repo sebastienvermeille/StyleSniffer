@@ -38,48 +38,74 @@
   </parent>
 
   <properties>
-    <maven.compiler.source>${java.sdk.version}</maven.compiler.source>
-    <maven.compiler.target>${java.sdk.version}</maven.compiler.target>
-    <project.build.sourceEncoding>${source.encoding}</project.build.sourceEncoding>
     <stylesniffer.root>${basedir}/..</stylesniffer.root>
-    <!-- sonar analysis -->
     <sonar.projectKey>${project.sonar.root.projectKey}-${project.groupId}-${project.artifactId}</sonar.projectKey>
   </properties>
 
   <dependencies>
+    <!-- Core Dependencies -->
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
     </dependency>
     <dependency>
+      <groupId>jakarta.annotation</groupId>
+      <artifactId>jakarta.annotation-api</artifactId>
+    </dependency>
+    <dependency>
       <groupId>dev.cookiecode</groupId>
       <artifactId>stylesniffer-annotation-processor</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
       <scope>provided</scope>
-      <version>${project.version}</version>
     </dependency>
     <dependency>
       <artifactId>stylesniffer-api</artifactId>
       <groupId>dev.cookiecode</groupId>
-      <scope>compile</scope>
       <version>1.0.0-SNAPSHOT</version>
+      <scope>compile</scope>
     </dependency>
 
-    <!--    test dependencies -->
+    <!-- Test Dependencies -->
     <dependency>
       <groupId>dev.cookiecode</groupId>
       <artifactId>stylesniffer-testkit</artifactId>
-      <scope>test</scope>
       <version>1.0.0-SNAPSHOT</version>
+      <scope>test</scope>
     </dependency>
-
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-junit-jupiter</artifactId>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <build>
     <plugins>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <executions>
           <execution>
+            <id>default-compile</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>compile</goal>
+            </goals>
             <configuration>
               <annotationProcessors>
                 <annotationProcessor>
@@ -89,31 +115,8 @@
               <source>${java.sdk.version}</source>
               <target>${java.sdk.version}</target>
             </configuration>
-            <goals>
-              <goal>compile</goal>
-            </goals>
-            <id>default-compile</id>
-            <phase>compile</phase>
           </execution>
         </executions>
-        <groupId>org.apache.maven.plugins</groupId>
-        <version>3.13.0</version>
-      </plugin>
-      <plugin>
-        <artifactId>jacoco-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <configuration>
-              <includeCurrentProject>true</includeCurrentProject>
-            </configuration>
-            <goals>
-              <goal>report-aggregate</goal>
-            </goals>
-            <id>report-aggregate</id>
-            <phase>verify</phase>
-          </execution>
-        </executions>
-        <groupId>org.jacoco</groupId>
       </plugin>
     </plugins>
   </build>

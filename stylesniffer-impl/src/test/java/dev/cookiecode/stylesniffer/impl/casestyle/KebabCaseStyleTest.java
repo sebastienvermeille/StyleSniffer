@@ -20,43 +20,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package dev.cookiecode.stylesniffer;
+package dev.cookiecode.stylesniffer.impl.casestyle;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static java.util.List.of;
 
-import java.lang.reflect.Constructor;
-import org.junit.jupiter.api.Test;
+import dev.cookiecode.stylesniffer.testkit.CaseStyleTestKit;
+import java.util.List;
 
 /**
  * Test class
  *
  * @author Sebastien Vermeille
  */
-class StyleSnifferFactoryTest {
+@SuppressWarnings(
+    "java:S2187") // sonar is not able to detect that BaseCaseStyleTest interface generates test
+class KebabCaseStyleTest implements CaseStyleTestKit<KebabCaseStyle> {
 
-  @Test
-  void createStyleSnifferShouldNotGenerateAnyExceptions() {
-    // THEN
-    assertDoesNotThrow(
-        () -> {
-          // WHEN
-          final var instance = StyleSnifferFactory.createStyleSniffer();
-          instance.getCaseStyle("PascalCaseInput");
-        });
+  @Override
+  public KebabCaseStyle createCaseStyle() {
+    return new KebabCaseStyle();
   }
 
-  @Test
-  public void instantiateStyleSnifferShouldNotThrowExceptions() {
+  @Override
+  public List<String> nonMatchingInputs() {
+    return of("SomePascalCase", "someCamelCase", "some_snake_case");
+  }
 
-    assertDoesNotThrow(
-        () -> {
-          // GIVEN
-          Constructor<StyleSnifferFactory> constructor =
-              StyleSnifferFactory.class.getDeclaredConstructor();
-          constructor.setAccessible(true);
-
-          // WHEN
-          constructor.newInstance();
-        });
+  @Override
+  public List<String> matchingInputs() {
+    return of("kebab-case", "this-is-kebab-case", "a-very-long-name-using-such-case-style");
   }
 }

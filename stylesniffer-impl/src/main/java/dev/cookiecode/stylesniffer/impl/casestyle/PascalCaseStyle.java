@@ -20,11 +20,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package dev.cookiecode.stylesniffer.impl;
+package dev.cookiecode.stylesniffer.impl.casestyle;
 
 import static java.lang.Character.isUpperCase;
 
 import dev.cookiecode.stylesniffer.annotation.RegisterCaseStyle;
+import dev.cookiecode.stylesniffer.api.BaseCaseStyle;
 import dev.cookiecode.stylesniffer.api.CaseStyle;
 import java.util.Set;
 import lombok.NonNull;
@@ -38,7 +39,7 @@ import lombok.NonNull;
  * @author Sebastien Vermeille
  */
 @RegisterCaseStyle
-public class PascalCaseStyle implements CaseStyle {
+public class PascalCaseStyle extends BaseCaseStyle {
 
   /**
    * Checks if the given name matches the PascalCase style.

@@ -22,15 +22,15 @@
  */
 package dev.cookiecode.stylesniffer;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import dev.cookiecode.stylesniffer.generated.CaseStyleInjector;
+import lombok.experimental.UtilityClass;
 
 /**
  * Utility class for creating instances of {@link StyleSniffer}.
  *
  * @author Sebastien Vermeille
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@UtilityClass
 public final class StyleSnifferFactory {
 
   /**
@@ -39,6 +39,7 @@ public final class StyleSnifferFactory {
    * @return a new {@link StyleSniffer} instance
    */
   public static StyleSniffer createStyleSniffer() {
-    return new StyleSniffer();
+    final var caseStyleClasses = new CaseStyleInjector().getAnnotatedCaseStyles();
+    return new StyleSnifferImpl(caseStyleClasses);
   }
 }

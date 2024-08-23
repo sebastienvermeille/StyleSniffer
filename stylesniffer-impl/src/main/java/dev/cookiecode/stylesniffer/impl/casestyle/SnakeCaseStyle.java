@@ -20,34 +20,42 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package dev.cookiecode.stylesniffer.impl;
+package dev.cookiecode.stylesniffer.impl.casestyle;
+
+import static java.lang.Character.isLowerCase;
 
 import dev.cookiecode.stylesniffer.annotation.RegisterCaseStyle;
+import dev.cookiecode.stylesniffer.api.BaseCaseStyle;
 import dev.cookiecode.stylesniffer.api.CaseStyle;
 import java.util.Set;
 import lombok.NonNull;
 
 /**
- * {@link CaseStyle} implementation that checks for UPPER_SNAKE_CASE naming style.
+ * {@link CaseStyle} implementation that checks for snake_case naming style.
  *
- * <p>UPPER_SNAKE_CASE style is characterized by all uppercase letters and underscores separating
- * words.
+ * <p>Snake_case style is characterized by all lowercase letters and underscores separating words.
  *
  * @author Sebastien Vermeille
  */
 @RegisterCaseStyle
-public class ScreamingSnakeCaseStyle implements CaseStyle {
+public class SnakeCaseStyle extends BaseCaseStyle {
 
   private static final char UNDERSCORE = '_';
 
+  /**
+   * Checks if the given name matches the snake_case style.
+   *
+   * @param name the name to check
+   * @return {@code true} if the name is in snake_case, {@code false} otherwise
+   */
   @Override
   public boolean matches(@NonNull final String name) {
-    return this.isScreamingSnakeCase(name);
+    return this.isSnakeCase(name);
   }
 
   @Override
   public String getName() {
-    return "SCREAMING_SNAKE_CASE";
+    return "snake_case";
   }
 
   @Override
@@ -56,46 +64,25 @@ public class ScreamingSnakeCaseStyle implements CaseStyle {
   }
 
   /**
-   * Determines if the given name is in UPPER_SNAKE_CASE style.
+   * Determines if the given name is in snake_case style.
    *
-   * <p>Checks if the name consists entirely of uppercase letters and underscores, with at least one
-   * underscore present, and no other characters or lowercase letters.
+   * <p>Checks if the name consists entirely of lowercase letters and underscores, with at least one
+   * underscore present, and no other characters or uppercase letters.
    *
    * @param name the name to check
-   * @return {@code true} if the name is in UPPER_SNAKE_CASE, {@code false} otherwise
+   * @return {@code true} if the name is in snake_case, {@code false} otherwise
    */
-  private boolean isScreamingSnakeCase(@NonNull final String name) {
-    if (name.isEmpty()) {
-      return false;
-    }
-
+  private boolean isSnakeCase(@NonNull final String name) {
+    // Check if the name is all lowercase and contains underscores
     boolean hasUnderscore = false;
-    boolean lastWasUnderscore = false;
-
-    // Check if the string starts or ends with an underscore
-    if (name.charAt(0) == UNDERSCORE || name.charAt(name.length() - 1) == UNDERSCORE) {
-      return false;
-    }
-
     for (int i = 0; i < name.length(); i++) {
       final char c = name.charAt(i);
-
       if (c == UNDERSCORE) {
         hasUnderscore = true;
-        if (lastWasUnderscore) {
-          // Consecutive underscores are not allowed
-          return false;
-        }
-        lastWasUnderscore = true;
-      } else if (!Character.isUpperCase(c)) {
-        // Non-uppercase characters are not allowed
+      } else if (!isLowerCase(c)) {
         return false;
-      } else {
-        lastWasUnderscore = false;
       }
     }
-
-    // At least one underscore must be present
     return hasUnderscore;
   }
 }

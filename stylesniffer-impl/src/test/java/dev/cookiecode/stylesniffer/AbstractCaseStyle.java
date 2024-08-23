@@ -22,41 +22,11 @@
  */
 package dev.cookiecode.stylesniffer;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.lang.reflect.Constructor;
-import org.junit.jupiter.api.Test;
+import dev.cookiecode.stylesniffer.api.CaseStyle;
 
 /**
- * Test class
+ * Test class used by {@link StyleSnifferImplTest}
  *
  * @author Sebastien Vermeille
  */
-class StyleSnifferFactoryTest {
-
-  @Test
-  void createStyleSnifferShouldNotGenerateAnyExceptions() {
-    // THEN
-    assertDoesNotThrow(
-        () -> {
-          // WHEN
-          final var instance = StyleSnifferFactory.createStyleSniffer();
-          instance.getCaseStyle("PascalCaseInput");
-        });
-  }
-
-  @Test
-  public void instantiateStyleSnifferShouldNotThrowExceptions() {
-
-    assertDoesNotThrow(
-        () -> {
-          // GIVEN
-          Constructor<StyleSnifferFactory> constructor =
-              StyleSnifferFactory.class.getDeclaredConstructor();
-          constructor.setAccessible(true);
-
-          // WHEN
-          constructor.newInstance();
-        });
-  }
-}
+public abstract class AbstractCaseStyle implements CaseStyle {}

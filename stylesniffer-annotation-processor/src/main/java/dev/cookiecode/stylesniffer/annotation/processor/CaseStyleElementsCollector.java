@@ -20,43 +20,36 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package dev.cookiecode.stylesniffer;
+package dev.cookiecode.stylesniffer.annotation.processor;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static java.util.stream.Collectors.toList;
 
-import java.lang.reflect.Constructor;
-import org.junit.jupiter.api.Test;
+import dev.cookiecode.stylesniffer.annotation.RegisterCaseStyle;
+import java.lang.annotation.Annotation;
+import java.util.List;
+import javax.annotation.processing.RoundEnvironment;
+import javax.lang.model.element.TypeElement;
+import lombok.NonNull;
 
 /**
- * Test class
+ * Collects elements annotated with {@link
+ * dev.cookiecode.stylesniffer.annotation.RegisterCaseStyle}.
+ *
+ * <p>This class is responsible for scanning the {@link RoundEnvironment} and extracting the fully
+ * qualified class names of elements annotated with {@code @RegisterCaseStyle}.
+ *
+ * <p>The collected class names are used in the template rendering process.
  *
  * @author Sebastien Vermeille
+ * @see dev.cookiecode.stylesniffer.annotation.RegisterCaseStyle
  */
-class StyleSnifferFactoryTest {
+public class CaseStyleElementsCollector {
 
-  @Test
-  void createStyleSnifferShouldNotGenerateAnyExceptions() {
-    // THEN
-    assertDoesNotThrow(
-        () -> {
-          // WHEN
-          final var instance = StyleSnifferFactory.createStyleSniffer();
-          instance.getCaseStyle("PascalCaseInput");
-        });
-  }
+  static final Class<? extends Annotation> ANNOTATION_CLASS = RegisterCaseStyle.class;
 
-  @Test
-  public void instantiateStyleSnifferShouldNotThrowExceptions() {
-
-    assertDoesNotThrow(
-        () -> {
-          // GIVEN
-          Constructor<StyleSnifferFactory> constructor =
-              StyleSnifferFactory.class.getDeclaredConstructor();
-          constructor.setAccessible(true);
-
-          // WHEN
-          constructor.newInstance();
-        });
+  public List<String> collectElements(@NonNull RoundEnvironment roundEnv) {
+    return roundEnv.getElementsAnnotatedWith(ANNOTATION_CLASS).stream()
+        .map(element -> ((TypeElement) element).getQualifiedName().toString())
+        .collect(toList());
   }
 }

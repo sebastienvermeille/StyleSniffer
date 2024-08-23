@@ -33,22 +33,20 @@
   <packaging>pom</packaging>
 
   <modules>
+    <module>stylesniffer-api</module>
     <module>stylesniffer-impl</module>
     <module>stylesniffer-annotation-processor</module>
-    <module>stylesniffer-api</module>
     <module>stylesniffer-testkit</module>
+    <module>stylesniffer-report-aggregate</module>
   </modules>
 
   <properties>
+    <!-- Java and Encoding -->
     <java.sdk.version>21</java.sdk.version>
     <source.encoding>UTF-8</source.encoding>
     <stylesniffer.root>${basedir}</stylesniffer.root>
 
-    <maven.compiler.source>${java.sdk.version}</maven.compiler.source>
-    <maven.compiler.target>${java.sdk.version}</maven.compiler.target>
-    <project.build.sourceEncoding>${source.encoding}</project.build.sourceEncoding>
-
-    <!-- sonar analysis -->
+    <!-- Sonar Configuration -->
     <sonar.organization>sebastienvermeille</sonar.organization>
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     <sonar.language>java</sonar.language>
@@ -58,22 +56,25 @@
     <sonar.tests>src/test/java</sonar.tests>
     <sonar.links.homepage>https://stylesniffer.cookiecode.dev/</sonar.links.homepage>
     <sonar.links.scm>https://github.com/sebastienvermeille/StyleSniffer</sonar.links.scm>
+    <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/report-aggregate/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 
-    <!-- dependencies versions -->
+    <!-- Dependencies Versions -->
     <flogger.version>0.8</flogger.version>
     <google-auto-service.version>1.1.1</google-auto-service.version>
     <logback.version>1.5.7</logback.version>
     <slf4j.version>2.0.16</slf4j.version>
     <thymeleaf.version>3.1.2.RELEASE</thymeleaf.version>
+    <jakarta.annotation.version>3.0.0</jakarta.annotation.version>
 
-    <!-- test dependencies versions -->
+    <!-- Test Dependencies Versions -->
     <assertj-core.version>3.26.3</assertj-core.version>
     <junit.version>5.10.1</junit.version>
+    <mockito.version>5.12.0</mockito.version>
 
-    <!-- dependencies codegen versions -->
+    <!-- Code Generation Dependencies -->
     <lombok.version>1.18.34</lombok.version>
 
-    <!-- maven plugins versions -->
+    <!-- Maven Plugins Versions -->
     <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
     <maven-surefire-plugin.version>3.4.0</maven-surefire-plugin.version>
     <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
@@ -92,6 +93,12 @@
         <artifactId>lombok</artifactId>
         <version>${lombok.version}</version>
         <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>jakarta.annotation</groupId>
+        <artifactId>jakarta.annotation-api</artifactId>
+        <version>${jakarta.annotation.version}</version>
+        <scope>compile</scope>
       </dependency>
       <dependency>
         <groupId>org.thymeleaf</groupId>
@@ -127,7 +134,7 @@
         <groupId>ch.qos.logback</groupId>
         <artifactId>logback-classic</artifactId>
         <version>${logback.version}</version>
-        <scope>compile</scope>
+        <scope>runtime</scope>
       </dependency>
       <dependency>
         <groupId>org.assertj</groupId>
@@ -139,6 +146,18 @@
         <groupId>org.junit.jupiter</groupId>
         <artifactId>junit-jupiter</artifactId>
         <version>${junit.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-core</artifactId>
+        <version>${mockito.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-junit-jupiter</artifactId>
+        <version>${mockito.version}</version>
         <scope>test</scope>
       </dependency>
     </dependencies>
@@ -155,26 +174,66 @@
             <release>${java.sdk.version}</release>
           </configuration>
         </plugin>
+
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
           <version>${maven-surefire-plugin.version}</version>
         </plugin>
+
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-source-plugin</artifactId>
           <version>${maven-source-plugin.version}</version>
         </plugin>
+
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
           <version>${maven-javadoc-plugin.version}</version>
         </plugin>
+
         <plugin>
           <groupId>org.jacoco</groupId>
           <artifactId>jacoco-maven-plugin</artifactId>
           <version>${maven-jacoco-plugin.version}</version>
+          <executions>
+            <execution>
+              <id>agent</id>
+              <goals>
+                <goal>prepare-agent</goal>
+              </goals>
+            </execution>
+            <execution>
+              <id>jacoco-report</id>
+              <goals>
+                <goal>report</goal>
+              </goals>
+              <phase>test</phase>
+            </execution>
+            <execution>
+              <id>check</id>
+              <goals>
+                <goal>check</goal>
+              </goals>
+              <configuration>
+                <rules>
+                  <rule>
+                    <element>CLASS</element>
+                    <limits>
+                      <limit>
+                        <counter>LINE</counter>
+                        <value>COVEREDRATIO</value>
+                        <minimum>0.80</minimum>
+                      </limit>
+                    </limits>
+                  </rule>
+                </rules>
+              </configuration>
+            </execution>
+          </executions>
         </plugin>
+
         <plugin>
           <groupId>com.spotify.fmt</groupId>
           <artifactId>fmt-maven-plugin</artifactId>
@@ -225,6 +284,7 @@
             </properties>
           </configuration>
         </plugin>
+
         <plugin>
           <groupId>se.ayoy.maven-plugins</groupId>
           <artifactId>ayoy-license-verifier-maven-plugin</artifactId>
@@ -246,52 +306,6 @@
           </executions>
         </plugin>
 
-        <plugin>
-          <groupId>org.jacoco</groupId>
-          <artifactId>jacoco-maven-plugin</artifactId>
-          <version>${maven-jacoco-plugin.version}</version>
-          <configuration>
-            <formats>
-              <format>HTML</format>
-              <format>XML</format>
-            </formats>
-          </configuration>
-          <executions>
-            <execution>
-              <goals>
-                <goal>prepare-agent</goal>
-              </goals>
-              <id>agent</id>
-            </execution>
-            <execution>
-              <goals>
-                <goal>report</goal>
-              </goals>
-              <id>jacoco-report</id>
-              <phase>test</phase>
-            </execution>
-            <execution>
-              <id>check</id>
-              <goals>
-                <goal>check</goal>
-              </goals>
-              <configuration>
-                <rules>
-                  <rule>
-                    <element>CLASS</element>
-                    <limits>
-                      <limit>
-                        <counter>LINE</counter>
-                        <value>COVEREDRATIO</value>
-                        <minimum>0.80</minimum>
-                      </limit>
-                    </limits>
-                  </rule>
-                </rules>
-              </configuration>
-            </execution>
-          </executions>
-        </plugin>
         <plugin>
           <groupId>org.sonarsource.scanner.maven</groupId>
           <artifactId>sonar-maven-plugin</artifactId>

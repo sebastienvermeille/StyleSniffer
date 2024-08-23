@@ -22,46 +22,39 @@
  */
 package dev.cookiecode.stylesniffer.api;
 
-import static java.util.Collections.unmodifiableSet;
-import static java.util.Set.of;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import jakarta.annotation.Nullable;
 import java.util.Set;
-import lombok.NonNull;
+import org.junit.jupiter.api.Test;
 
 /**
- * Represents a naming convention (case style) that can be matched against a given string.
+ * Test class
  *
- * @implNote Implementations should define specific case styles such as camelCase, snake_case, etc.
- *     Each case style must have a unique name and may have variant names.
  * @author Sebastien Vermeille
  */
-public interface CaseStyle {
+class CaseStyleTest {
 
-  /**
-   * Determines if the given string matches this case style.
-   *
-   * @param name the string to be checked, must not be null
-   * @return true if the string matches this case style, false otherwise
-   */
-  boolean matches(@NonNull String name);
+  @Test
+  void getVariantNamesShouldReturnByDefaultOnlyTheCaseStyleName() {
+    // GIVEN
+    final CaseStyle caseStyle = new CaseStyleHavingNoVariantNamesImpl();
 
-  /**
-   * Returns the unique display name for this case style (e.g., "camelCase").
-   *
-   * @return the display name of the case style
-   */
-  String getName();
+    // WHEN
+    final var actualVariantNames = caseStyle.getVariantNames();
 
-  /**
-   * Returns a set of variant names for the case style (e.g., "PascalCase" and "UpperCamelCase"). By
-   * default, only the primary name is returned.
-   *
-   * @return an immutable set of variant names
-   */
-  default Set<String> getVariantNames() {
-    return unmodifiableSet(of(getName()));
+    // THEN
+    assertThat(actualVariantNames).hasSize(1).containsOnly(caseStyle.getName());
   }
 
-  boolean equals(@Nullable CaseStyle otherCaseStyle);
+  @Test
+  void getVariantNamesShouldReturnTheCompleteListOfVariantNamesWhenOverride() {
+    // GIVEN
+    final CaseStyle caseStyle = new CaseStyleHavingTwoVariantNamesImpl();
+
+    // WHEN
+    final var actualVariantNames = caseStyle.getVariantNames();
+
+    // THEN
+    assertThat(actualVariantNames).hasSizeGreaterThan(1).isNotSameAs(Set.of(caseStyle.getName()));
+  }
 }

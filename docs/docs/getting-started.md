@@ -50,11 +50,14 @@ values={[
     <TabItem value="java">
 
 ```java
+// Create an instance of StyleSniffer
 var styleSniffer = StyleSnifferFactory.createStyleSniffer();
 
+// Retrieve a CaseStyle and handle the result
 Optional<CaseStyle> caseStyle = styleSniffer.getCaseStyle("myVariableName");
 caseStyle.ifPresent(style -> System.out.println("Matched style: " + style.getName()));
 
+// Retrieve and print supported case styles
 Set<String> supportedStyles = styleSniffer.getSupportedCaseStyles();
 System.out.println("Supported styles: " + supportedStyles);
 ```
@@ -64,7 +67,18 @@ System.out.println("Supported styles: " + supportedStyles);
 
 **gradle.properties**
 ```kotlin
-// TODO: document this code for Kotlin
+// Create an instance of StyleSniffer
+val styleSniffer = StyleSnifferFactory.createStyleSniffer()
+
+// Retrieve a CaseStyle and handle the result
+val caseStyle: CaseStyle? = styleSniffer.getCaseStyle("myVariableName")
+caseStyle?.let {
+    println("Matched style: ${it.getName()}")
+}
+
+// Retrieve and print supported case styles
+val supportedStyles: Set<String> = styleSniffer.getSupportedCaseStyles()
+println("Supported styles: $supportedStyles")
 ```
 
     </TabItem>

@@ -22,41 +22,25 @@
  */
 package dev.cookiecode.stylesniffer;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.lang.reflect.Constructor;
-import org.junit.jupiter.api.Test;
+import dev.cookiecode.stylesniffer.api.BaseCaseStyle;
+import lombok.NonNull;
 
 /**
- * Test class
+ * Test class used by {@link StyleSnifferImplTest}
  *
  * @author Sebastien Vermeille
  */
-class StyleSnifferFactoryTest {
+public class FaultyCaseStyleWithoutPublicConstructor extends BaseCaseStyle {
 
-  @Test
-  void createStyleSnifferShouldNotGenerateAnyExceptions() {
-    // THEN
-    assertDoesNotThrow(
-        () -> {
-          // WHEN
-          final var instance = StyleSnifferFactory.createStyleSniffer();
-          instance.getCaseStyle("PascalCaseInput");
-        });
+  private FaultyCaseStyleWithoutPublicConstructor() {}
+
+  @Override
+  public boolean matches(@NonNull String name) {
+    return false;
   }
 
-  @Test
-  public void instantiateStyleSnifferShouldNotThrowExceptions() {
-
-    assertDoesNotThrow(
-        () -> {
-          // GIVEN
-          Constructor<StyleSnifferFactory> constructor =
-              StyleSnifferFactory.class.getDeclaredConstructor();
-          constructor.setAccessible(true);
-
-          // WHEN
-          constructor.newInstance();
-        });
+  @Override
+  public String getName() {
+    return "DummyCaseStyle";
   }
 }

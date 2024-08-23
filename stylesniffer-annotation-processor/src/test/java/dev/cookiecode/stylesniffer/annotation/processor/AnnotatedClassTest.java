@@ -20,43 +20,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package dev.cookiecode.stylesniffer;
+package dev.cookiecode.stylesniffer.annotation.processor;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.lang.reflect.Constructor;
-import org.junit.jupiter.api.Test;
+import dev.cookiecode.stylesniffer.annotation.RegisterCaseStyle;
 
 /**
- * Test class
+ * Test class This class ensure that the annotation can be applied on the class (breaks compilation
+ * in case of changes in @RegisterCaseStyle) and is used in different mocks
  *
  * @author Sebastien Vermeille
  */
-class StyleSnifferFactoryTest {
-
-  @Test
-  void createStyleSnifferShouldNotGenerateAnyExceptions() {
-    // THEN
-    assertDoesNotThrow(
-        () -> {
-          // WHEN
-          final var instance = StyleSnifferFactory.createStyleSniffer();
-          instance.getCaseStyle("PascalCaseInput");
-        });
-  }
-
-  @Test
-  public void instantiateStyleSnifferShouldNotThrowExceptions() {
-
-    assertDoesNotThrow(
-        () -> {
-          // GIVEN
-          Constructor<StyleSnifferFactory> constructor =
-              StyleSnifferFactory.class.getDeclaredConstructor();
-          constructor.setAccessible(true);
-
-          // WHEN
-          constructor.newInstance();
-        });
-  }
-}
+@RegisterCaseStyle
+public class AnnotatedClassTest {}

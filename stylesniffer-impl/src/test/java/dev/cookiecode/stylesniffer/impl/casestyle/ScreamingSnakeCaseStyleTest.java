@@ -20,43 +20,42 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package dev.cookiecode.stylesniffer;
+package dev.cookiecode.stylesniffer.impl.casestyle;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static java.util.List.of;
 
-import java.lang.reflect.Constructor;
-import org.junit.jupiter.api.Test;
+import dev.cookiecode.stylesniffer.testkit.CaseStyleTestKit;
+import java.util.List;
 
 /**
  * Test class
  *
  * @author Sebastien Vermeille
  */
-class StyleSnifferFactoryTest {
+@SuppressWarnings(
+    "java:S2187") // sonar is not able to detect that BaseCaseStyleTest interface generates test
+class ScreamingSnakeCaseStyleTest implements CaseStyleTestKit<ScreamingSnakeCaseStyle> {
 
-  @Test
-  void createStyleSnifferShouldNotGenerateAnyExceptions() {
-    // THEN
-    assertDoesNotThrow(
-        () -> {
-          // WHEN
-          final var instance = StyleSnifferFactory.createStyleSniffer();
-          instance.getCaseStyle("PascalCaseInput");
-        });
+  @Override
+  public ScreamingSnakeCaseStyle createCaseStyle() {
+    return new ScreamingSnakeCaseStyle();
   }
 
-  @Test
-  public void instantiateStyleSnifferShouldNotThrowExceptions() {
+  @Override
+  public List<String> nonMatchingInputs() {
+    return of(
+        "SomePascalCase",
+        "someCamelCase",
+        "some-kebab-case",
+        "some_snake_case",
+        "Screaming_Snake_Case",
+        "SCREAMING__SNAKE_CASE",
+        "_SCREAMING_SNAKE_CASE",
+        "SCREAMING_SNAKE_CASE_");
+  }
 
-    assertDoesNotThrow(
-        () -> {
-          // GIVEN
-          Constructor<StyleSnifferFactory> constructor =
-              StyleSnifferFactory.class.getDeclaredConstructor();
-          constructor.setAccessible(true);
-
-          // WHEN
-          constructor.newInstance();
-        });
+  @Override
+  public List<String> matchingInputs() {
+    return of("SCREAMING_WILL_NOT_MAKE_IT_BETTER", "SOME_VALUE");
   }
 }

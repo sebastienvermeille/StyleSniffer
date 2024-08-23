@@ -20,43 +20,35 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package dev.cookiecode.stylesniffer;
+package dev.cookiecode.stylesniffer.annotation.processor;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.lang.reflect.Constructor;
-import org.junit.jupiter.api.Test;
+import lombok.experimental.Delegate;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
 /**
- * Test class
+ * Wrapper for Thymeleaf template engine pre-configured for the project
  *
  * @author Sebastien Vermeille
+ * @see TemplateEngine
  */
-class StyleSnifferFactoryTest {
+public class ProcessorTemplateEngine {
 
-  @Test
-  void createStyleSnifferShouldNotGenerateAnyExceptions() {
-    // THEN
-    assertDoesNotThrow(
-        () -> {
-          // WHEN
-          final var instance = StyleSnifferFactory.createStyleSniffer();
-          instance.getCaseStyle("PascalCaseInput");
-        });
-  }
+  private static final String TEMPLATES_DIR = "templates/";
+  private static final String TEMPLATE_EXTENSION = ".tpl";
+  private static final String TEMPLATE_MODE = "TEXT";
+  private static final String TEMPLATE_ENCODING = "UTF-8";
 
-  @Test
-  public void instantiateStyleSnifferShouldNotThrowExceptions() {
+  @Delegate(types = TemplateEngine.class)
+  private final TemplateEngine templateEngine = new TemplateEngine();
 
-    assertDoesNotThrow(
-        () -> {
-          // GIVEN
-          Constructor<StyleSnifferFactory> constructor =
-              StyleSnifferFactory.class.getDeclaredConstructor();
-          constructor.setAccessible(true);
+  public ProcessorTemplateEngine() {
+    final var templateResolver = new ClassLoaderTemplateResolver();
+    templateResolver.setPrefix(TEMPLATES_DIR);
+    templateResolver.setSuffix(TEMPLATE_EXTENSION);
+    templateResolver.setTemplateMode(TEMPLATE_MODE);
+    templateResolver.setCharacterEncoding(TEMPLATE_ENCODING);
 
-          // WHEN
-          constructor.newInstance();
-        });
+    templateEngine.setTemplateResolver(templateResolver);
   }
 }
