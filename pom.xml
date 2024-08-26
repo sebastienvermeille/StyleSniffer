@@ -84,7 +84,7 @@
     <maven-license-plugin.version>4.5</maven-license-plugin.version>
     <maven-ayoy-license-verifier.version>1.2.0</maven-ayoy-license-verifier.version>
     <maven-sonar-plugin.version>4.0.0.4121</maven-sonar-plugin.version>
-    <maven-gpg-plugin.version>3.1.0</maven-gpg-plugin.version>
+    <maven-gpg-plugin.version>3.2.5</maven-gpg-plugin.version>
     <maven-staging-plugin.version>1.7.0</maven-staging-plugin.version>
   </properties>
 
