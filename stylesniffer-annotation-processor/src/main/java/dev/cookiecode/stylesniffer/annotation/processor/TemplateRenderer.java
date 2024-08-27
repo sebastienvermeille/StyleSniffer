@@ -49,7 +49,7 @@ import org.thymeleaf.context.Context;
  * @author Sebastien Vermeille
  * @see org.thymeleaf.context.Context
  */
-@RequiredArgsConstructor(onConstructor_ = {@VisibleForTesting})
+@RequiredArgsConstructor()
 public class TemplateRenderer {
 
   static final String TEMPLATE_FILE_NAME = "case_style_injector";
