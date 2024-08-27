@@ -68,6 +68,20 @@
       </roles>
     </contributor>
   </contributors>
+  <developers>
+    <developer>
+      <id>sebastienvermeille</id>
+      <name>Sebastien Vermeille</name>
+      <email>sebastien.vermeille@gmail.com</email>
+      <organization>CookieCode.dev</organization>
+      <organizationUrl>http://cookiecode.dev/</organizationUrl>
+      <roles>
+        <role>architect</role>
+        <role>developer</role>
+      </roles>
+      <timezone>+1</timezone>
+    </developer>
+  </developers>
 
   <modules>
     <module>stylesniffer-api</module>
