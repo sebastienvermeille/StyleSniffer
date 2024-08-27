@@ -32,6 +32,38 @@
   <version>1.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
+  <name>StyleSniffer</name>
+  <description>
+    StyleSniffer is a Java library crafted to simplify the detection and analysis of case styles
+    in strings.
+
+    Whether you're dealing with camelCase, snake_case, PascalCase, or any other naming convention,
+    StyleSniffer provides a straightforward and efficient way to understand and manage these styles.
+  </description>
+  <url>https://stylesniffer.cookiecode.dev/</url>
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>LICENSE</url>
+      <distribution>repo</distribution>
+      <comments>A business-friendly OSS license</comments>
+    </license>
+  </licenses>
+  <inceptionYear>2024</inceptionYear>
+  <organization>
+    <name>CookieCode.dev</name>
+    <url>https://cookiecode.dev</url>
+  </organization>
+  <contributors>
+    <contributor>
+      <name>sebastienvermeille</name>
+      <email>sebastien.vermeille@gmail.com</email>
+      <roles>
+        <role>maintainer</role>
+      </roles>
+    </contributor>
+  </contributors>
+
   <modules>
     <module>stylesniffer-api</module>
     <module>stylesniffer-impl</module>
