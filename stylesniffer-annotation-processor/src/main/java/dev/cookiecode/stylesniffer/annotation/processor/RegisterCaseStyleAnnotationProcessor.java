@@ -24,7 +24,6 @@ package dev.cookiecode.stylesniffer.annotation.processor;
 
 import static lombok.AccessLevel.*;
 
-import com.google.common.annotations.VisibleForTesting;
 import java.io.IOException;
 import java.util.Set;
 import javax.annotation.processing.*;
@@ -47,12 +46,8 @@ import lombok.extern.flogger.Flogger;
  * @see dev.cookiecode.stylesniffer.api.CaseStyle
  */
 @NoArgsConstructor(access = PUBLIC)
-@AllArgsConstructor(
-    access = PACKAGE,
-    onConstructor_ = {@VisibleForTesting})
-@Getter(
-    value = PACKAGE,
-    onMethod_ = {@VisibleForTesting})
+@AllArgsConstructor(access = PACKAGE)
+@Getter(value = PACKAGE)
 @SupportedAnnotationTypes("dev.cookiecode.stylesniffer.annotation.RegisterCaseStyle")
 @SupportedSourceVersion(SourceVersion.RELEASE_21)
 @Flogger
