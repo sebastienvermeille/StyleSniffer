@@ -37,6 +37,17 @@ StyleSniffer excels at uncovering the subtle nuances of string case styles.
 
 ### **Get Started**
 
+Import the dependency:
+**pom.xml**
+```xml
+<dependency>
+    <groupId>dev.cookiecode</groupId>
+    <artifactId>stylesniffer-impl</artifactId>
+    <version>0.0.1</version>
+</dependency>
+```
+
+**Sample.java**
 ```java
 StyleSniffer styleSniffer = StyleSnifferFactory.createStyleSniffer();
 
