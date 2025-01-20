@@ -118,7 +118,7 @@
     <jakarta.annotation.version>3.0.0</jakarta.annotation.version>
 
     <!-- Test Dependencies Versions -->
-    <assertj-core.version>3.26.3</assertj-core.version>
+    <assertj-core.version>3.27.3</assertj-core.version>
     <junit.version>5.11.4</junit.version>
     <mockito.version>5.14.1</mockito.version>
 
