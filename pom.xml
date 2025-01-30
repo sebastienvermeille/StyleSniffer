@@ -112,18 +112,18 @@
     <!-- Dependencies Versions -->
     <flogger.version>0.8</flogger.version>
     <google-auto-service.version>1.1.1</google-auto-service.version>
-    <logback.version>1.5.8</logback.version>
+    <logback.version>1.5.16</logback.version>
     <slf4j.version>2.0.16</slf4j.version>
     <thymeleaf.version>3.1.2.RELEASE</thymeleaf.version>
     <jakarta.annotation.version>3.0.0</jakarta.annotation.version>
 
     <!-- Test Dependencies Versions -->
-    <assertj-core.version>3.26.3</assertj-core.version>
-    <junit.version>5.11.3</junit.version>
+    <assertj-core.version>3.27.3</assertj-core.version>
+    <junit.version>5.11.4</junit.version>
     <mockito.version>5.14.1</mockito.version>
 
     <!-- Code Generation Dependencies -->
-    <lombok.version>1.18.34</lombok.version>
+    <lombok.version>1.18.36</lombok.version>
 
     <!-- Maven Plugins Versions -->
     <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
