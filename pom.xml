@@ -130,7 +130,7 @@
     <maven-surefire-plugin.version>3.5.2</maven-surefire-plugin.version>
     <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
     <maven-javadoc-plugin.version>3.11.2</maven-javadoc-plugin.version>
-    <maven-jacoco-plugin.version>0.8.12</maven-jacoco-plugin.version>
+    <maven-jacoco-plugin.version>0.8.13</maven-jacoco-plugin.version>
     <maven-fmt-plugin.version>2.25</maven-fmt-plugin.version>
     <maven-license-plugin.version>4.6</maven-license-plugin.version>
     <maven-ayoy-license-verifier.version>1.2.0</maven-ayoy-license-verifier.version>
