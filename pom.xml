@@ -134,7 +134,7 @@
     <maven-fmt-plugin.version>2.25</maven-fmt-plugin.version>
     <maven-license-plugin.version>4.6</maven-license-plugin.version>
     <maven-ayoy-license-verifier.version>1.2.0</maven-ayoy-license-verifier.version>
-    <maven-sonar-plugin.version>5.0.0.4389</maven-sonar-plugin.version>
+    <maven-sonar-plugin.version>5.1.0.4751</maven-sonar-plugin.version>
     <maven-gpg-plugin.version>3.2.7</maven-gpg-plugin.version>
     <maven-staging-plugin.version>1.7.0</maven-staging-plugin.version>
   </properties>
